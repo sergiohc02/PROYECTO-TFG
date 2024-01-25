@@ -1,1 +1,1 @@
-web: gunicorn AgroConnect.AgroConnect.wsgi
+web: gunicorn AgroConnect.wsgi
