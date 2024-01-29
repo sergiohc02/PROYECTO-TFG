@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 
-from .models import CustomUser, Profile, Direccion, Raza, CapaAnimal, Tipo, Enfermedad, Animal, ImagenAnimal, Muerte, BajaEnfermedad, LoteCubricion, Granja
+from .models import CustomUser, Granjero, Veterinario, Direccion, Raza, CapaAnimal, TipoAnimal, Enfermedad, Animal, Muerte, BajaEnfermedad, LoteCubricion, Granja
 
 
 @admin.register(CustomUser)
@@ -13,29 +13,80 @@ class CustomUserAdmin(admin.ModelAdmin):
         'is_superuser',
         'email',
         'nombre',
+        'apellidos',
+        'es_granjero',
+        'es_veterinario',
         'is_active',
         'is_staff',
     )
-    list_filter = ('last_login', 'is_superuser', 'is_active', 'is_staff')
+    list_filter = (
+        'last_login',
+        'is_superuser',
+        'es_granjero',
+        'es_veterinario',
+        'is_active',
+        'is_staff',
+    )
     raw_id_fields = ('groups', 'user_permissions')
 
 
-@admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin):
+@admin.register(Granjero)
+class GranjeroAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'user_id',
+        'password',
+        'last_login',
+        'is_superuser',
+        'email',
         'nombre',
-        'apellido',
-        'telefono',
-        'avatar',
-        'experiencia_granjero',
-        'experiencia_veterinario',
+        'apellidos',
         'es_granjero',
         'es_veterinario',
-        'direccion',
+        'is_active',
+        'is_staff',
+        'creado',
+        'modificado',
     )
-    list_filter = ('user_id', 'es_granjero', 'es_veterinario', 'direccion')
+    list_filter = (
+        'last_login',
+        'is_superuser',
+        'es_granjero',
+        'es_veterinario',
+        'is_active',
+        'is_staff',
+        'creado',
+        'modificado',
+    )
+    raw_id_fields = ('granjas',)
+
+
+@admin.register(Veterinario)
+class VeterinarioAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'password',
+        'last_login',
+        'is_superuser',
+        'email',
+        'nombre',
+        'apellidos',
+        'es_granjero',
+        'es_veterinario',
+        'is_active',
+        'is_staff',
+        'creado',
+        'modificado',
+    )
+    list_filter = (
+        'last_login',
+        'is_superuser',
+        'es_granjero',
+        'es_veterinario',
+        'is_active',
+        'is_staff',
+        'creado',
+        'modificado',
+    )
     raw_id_fields = ('granjas',)
 
 
@@ -43,14 +94,12 @@ class ProfileAdmin(admin.ModelAdmin):
 class DireccionAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'id_perfil',
         'direccion',
         'poblacion',
         'provincia',
         'codigo_postal',
         'pais',
     )
-    list_filter = ('id_perfil',)
 
 
 @admin.register(Raza)
@@ -60,11 +109,11 @@ class RazaAdmin(admin.ModelAdmin):
 
 @admin.register(CapaAnimal)
 class CapaAnimalAdmin(admin.ModelAdmin):
-    list_display = ('id', 'capa')
+    list_display = ('id', 'nombre')
 
 
-@admin.register(Tipo)
-class TipoAdmin(admin.ModelAdmin):
+@admin.register(TipoAnimal)
+class TipoAnimalAdmin(admin.ModelAdmin):
     list_display = ('id', 'nombre')
 
 
@@ -103,12 +152,6 @@ class AnimalAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(ImagenAnimal)
-class ImagenAnimalAdmin(admin.ModelAdmin):
-    list_display = ('id', 'animal', 'imagen')
-    list_filter = ('animal',)
-
-
 @admin.register(Muerte)
 class MuerteAdmin(admin.ModelAdmin):
     list_display = ('id', 'id_animal', 'fecha_defuncion', 'tipo_muerte')
@@ -138,9 +181,4 @@ class LoteCubricionAdmin(admin.ModelAdmin):
 class GranjaAdmin(admin.ModelAdmin):
     list_display = ('id', 'direccion')
     list_filter = ('direccion',)
-    raw_id_fields = (
-        'granjeros',
-        'veterinarios',
-        'animales',
-        'lotes_de_cubricion',
-    )
+    raw_id_fields = ('animales', 'lotes_de_cubricion')
