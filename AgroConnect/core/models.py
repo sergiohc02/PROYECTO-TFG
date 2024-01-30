@@ -197,7 +197,7 @@ class BajaEnfermedad(models.Model):
 
 class LoteCubricion(models.Model):
     nombre = models.CharField(max_length=30)
-    grupo_animales = models.ManyToManyField(Animal, related_name='grupo_animales')
+    grupo_animales = models.ManyToManyField(Animal, blank=True, related_name='grupo_animales')
     semental = models.ForeignKey(Animal, on_delete=models.CASCADE)
     fecha_cubricion = models.DateField()
     numero_cubriciones = models.PositiveIntegerField(default=0)
@@ -210,8 +210,8 @@ class LoteCubricion(models.Model):
 
 
 class Granja(models.Model):
-    # granjeros = models.ManyToManyField(Profile, blank=True, related_name='granjeros')
-    # veterinarios = models.ManyToManyField(Profile, blank=True, related_name='veterinarios')
+    granjeros = models.ManyToManyField(Granjero, blank=True, related_name='granjeros')
+    veterinarios = models.ManyToManyField(Veterinario, blank=True, related_name='veterinarios')
     animales = models.ManyToManyField(Animal, blank=True, related_name='animales')
     lotes_de_cubricion = models.ManyToManyField(LoteCubricion, blank=True, related_name='lotes_de_cubricion')
     direccion = models.OneToOneField(Direccion, on_delete=models.PROTECT)

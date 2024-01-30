@@ -181,4 +181,9 @@ class LoteCubricionAdmin(admin.ModelAdmin):
 class GranjaAdmin(admin.ModelAdmin):
     list_display = ('id', 'direccion')
     list_filter = ('direccion',)
-    raw_id_fields = ('animales', 'lotes_de_cubricion')
+    raw_id_fields = (
+        'granjeros',
+        'veterinarios',
+        'animales',
+        'lotes_de_cubricion',
+    )
