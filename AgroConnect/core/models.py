@@ -46,11 +46,14 @@ class CustomUserManager(BaseUserManager):
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('es_administrador', True)
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError('El superusuario debe tener is_staff=True')
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('El superusuario debe tener is_superuser=True')
+        if extra_fields.get('es_administrador') is not True:
+            raise ValueError('El superusuario debe tener el es_administrador=True')
 
         return self.create_user(email, password, **extra_fields)
 
@@ -62,7 +65,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     es_veterinario = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    # es_administrador = models.BooleanField(default=True)
+    es_administrador = models.BooleanField(default=False)
 
     objects = CustomUserManager()
 
@@ -128,10 +131,12 @@ class TipoAnimal(models.Model):
 
 
 class Enfermedad(models.Model):
-    nombre = models.CharField(max_length=30)
+    nombre = models.CharField(max_length=30, unique=True)
 
     def __str__(self) -> str:
         return f'{self.nombre}'
+    
+    #TODO --> Crear método save que guarde el nombre de la enfermedad en minusculas
     
     class Meta:
         verbose_name_plural = 'Enfermedades'

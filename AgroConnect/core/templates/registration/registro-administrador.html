@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+<form method="post" action=".">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button>Regístrate</button>
+</form>
