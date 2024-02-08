@@ -22,5 +22,10 @@ urlpatterns = [
     path('login/', views.PaginaAcceso.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('registro/', views.RegistroAdministrador.as_view(), name='registro-administrador'),
-    path('', views.DashboardView.as_view(), name='dashboard'),
+    path('password_reset/', views.PasswordReset.as_view(), name='password-reset'),
+    path('password_reset_confirm/<uidb64>/<token>/', views.PasswordResetConfirm.as_view(), name='password_reset_confirm'),
+    path('password_reset_done/', views.PasswordResetDone.as_view(), name='password_reset_done'),
+    path('password_reset_complete/', views.PasswordResetComplete.as_view(), name='password_reset_complete'),
+    path('dashboard/', views.DashboardView.as_view(), name='dashboard'),
+    path('dashboard/registro_nave/', views.RegistroNaveView.as_view(), name='registro-nave'),
 ]

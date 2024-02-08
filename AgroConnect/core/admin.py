@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 
-from .models import CustomUser, Granjero, Veterinario, Direccion, Raza, CapaAnimal, TipoAnimal, Enfermedad, Animal, Muerte, BajaEnfermedad, LoteCubricion, Granja
+from .models import CustomUser, Granjero, Veterinario, Raza, CapaAnimal, TipoAnimal, Enfermedad, Animal, Muerte, BajaEnfermedad, LoteCubricion, Nave
 
 
 @admin.register(CustomUser)
@@ -18,6 +18,7 @@ class CustomUserAdmin(admin.ModelAdmin):
         'es_veterinario',
         'is_active',
         'is_staff',
+        'es_administrador',
     )
     list_filter = (
         'last_login',
@@ -26,6 +27,7 @@ class CustomUserAdmin(admin.ModelAdmin):
         'es_veterinario',
         'is_active',
         'is_staff',
+        'es_administrador',
     )
     raw_id_fields = ('groups', 'user_permissions')
 
@@ -44,6 +46,7 @@ class GranjeroAdmin(admin.ModelAdmin):
         'es_veterinario',
         'is_active',
         'is_staff',
+        'es_administrador',
         'creado',
         'modificado',
     )
@@ -54,10 +57,11 @@ class GranjeroAdmin(admin.ModelAdmin):
         'es_veterinario',
         'is_active',
         'is_staff',
+        'es_administrador',
         'creado',
         'modificado',
     )
-    raw_id_fields = ('granjas',)
+    raw_id_fields = ('naves',)
 
 
 @admin.register(Veterinario)
@@ -74,6 +78,7 @@ class VeterinarioAdmin(admin.ModelAdmin):
         'es_veterinario',
         'is_active',
         'is_staff',
+        'es_administrador',
         'creado',
         'modificado',
     )
@@ -84,22 +89,11 @@ class VeterinarioAdmin(admin.ModelAdmin):
         'es_veterinario',
         'is_active',
         'is_staff',
+        'es_administrador',
         'creado',
         'modificado',
     )
-    raw_id_fields = ('granjas',)
-
-
-@admin.register(Direccion)
-class DireccionAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'direccion',
-        'poblacion',
-        'provincia',
-        'codigo_postal',
-        'pais',
-    )
+    raw_id_fields = ('naves',)
 
 
 @admin.register(Raza)
@@ -154,14 +148,14 @@ class AnimalAdmin(admin.ModelAdmin):
 
 @admin.register(Muerte)
 class MuerteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'id_animal', 'fecha_defuncion', 'tipo_muerte')
-    list_filter = ('id_animal', 'fecha_defuncion')
+    list_display = ('id', 'animal', 'fecha_defuncion', 'tipo_muerte')
+    list_filter = ('animal', 'fecha_defuncion')
 
 
 @admin.register(BajaEnfermedad)
 class BajaEnfermedadAdmin(admin.ModelAdmin):
-    list_display = ('id', 'causa_baja', 'id_animal', 'id_enfermedad')
-    list_filter = ('id_animal', 'id_enfermedad')
+    list_display = ('id', 'causa_baja', 'animal', 'enfermedad')
+    list_filter = ('animal', 'enfermedad')
 
 
 @admin.register(LoteCubricion)
@@ -177,10 +171,17 @@ class LoteCubricionAdmin(admin.ModelAdmin):
     raw_id_fields = ('grupo_animales',)
 
 
-@admin.register(Granja)
-class GranjaAdmin(admin.ModelAdmin):
-    list_display = ('id', 'direccion')
-    list_filter = ('direccion',)
+@admin.register(Nave)
+class NaveAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'nombre_nave',
+        'direccion',
+        'poblacion',
+        'provincia',
+        'codigo_postal',
+        'pais',
+    )
     raw_id_fields = (
         'granjeros',
         'veterinarios',

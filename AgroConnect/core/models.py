@@ -77,7 +77,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Granjero(CustomUser):
-    granjas = models.ManyToManyField('Granja', blank=True)
+    administrador = models.ForeignKey(CustomUser, blank=True)
     creado = models.DateTimeField(auto_now=True)
     modificado = models.DateTimeField(auto_now_add=True)
 
@@ -86,27 +86,13 @@ class Granjero(CustomUser):
 
 
 class Veterinario(CustomUser):
-    granjas = models.ManyToManyField('Granja', blank=True)
+    administrador = models.ForeignKey(CustomUser, blank=True)
     creado = models.DateTimeField(auto_now=True)
     modificado = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.nombre} {self.email} es veterinario {self.es_veterinario}'
-    
 
-class Direccion(models.Model):
-    direccion = models.CharField(max_length=255)
-    poblacion = models.CharField(max_length=255)
-    provincia = models.CharField(max_length=100)
-    codigo_postal = models.CharField(max_length=10)
-    pais = models.CharField(max_length=255)
-
-    def __str__(self):
-        return f'{self.id} {self.poblacion} {self.direccion}'
-    
-
-    class Meta:
-        verbose_name_plural = 'Direcciones'
 
 class Raza(models.Model):
     nombre = models.CharField(max_length=30)
@@ -143,7 +129,7 @@ class Enfermedad(models.Model):
     
 
 class Animal(models.Model):
-    #TODO ... id with hash id
+    #TODO ... ¿Asignar el animal a una nave?
     nombre = models.CharField(max_length=30)
     numero = models.CharField(max_length=10)
     raza = models.ForeignKey(Raza, on_delete=models.CASCADE)
@@ -180,7 +166,7 @@ class Animal(models.Model):
 
 
 class Muerte(models.Model):
-    id_animal = models.OneToOneField(Animal, on_delete=models.CASCADE)
+    animal = models.OneToOneField(Animal, on_delete=models.CASCADE)
     fecha_defuncion = models.DateTimeField()
     tipo_muerte = models.CharField(max_length=255)
 
@@ -190,8 +176,8 @@ class Muerte(models.Model):
 
 class BajaEnfermedad(models.Model):
     causa_baja = models.CharField(max_length=255)
-    id_animal= models.ForeignKey(Animal, on_delete=models.CASCADE, related_name='bajas_enfermedad')
-    id_enfermedad = models.ForeignKey(Enfermedad, on_delete=models.CASCADE, related_name='bajas_enfermedad')
+    animal= models.ForeignKey(Animal, on_delete=models.CASCADE, related_name='bajas_enfermedad')
+    enfermedad = models.ForeignKey(Enfermedad, on_delete=models.CASCADE, related_name='bajas_enfermedad')
 
     def __str__(self) -> str:
         return f'{self.id_animal} {self.causa_baja}'
@@ -214,12 +200,17 @@ class LoteCubricion(models.Model):
         verbose_name_plural = 'Lote de Cubriciones'
 
 
-class Granja(models.Model):
+class Nave(models.Model):
+    nombre_nave = models.CharField(max_length=255)
     granjeros = models.ManyToManyField(Granjero, blank=True, related_name='granjeros')
     veterinarios = models.ManyToManyField(Veterinario, blank=True, related_name='veterinarios')
     animales = models.ManyToManyField(Animal, blank=True, related_name='animales')
     lotes_de_cubricion = models.ManyToManyField(LoteCubricion, blank=True, related_name='lotes_de_cubricion')
-    direccion = models.OneToOneField(Direccion, on_delete=models.PROTECT)
+    direccion = models.CharField(max_length=255)
+    poblacion = models.CharField(max_length=255)
+    provincia = models.CharField(max_length=100)
+    codigo_postal = models.CharField(max_length=10)
+    pais = models.CharField(max_length=255)
 
     def __str__(self) -> str:
-        return f'{self.id} {self.direccion}'
+        return f'{self.nombre_nave} {self.direccion}'

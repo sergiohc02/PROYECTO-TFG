@@ -1,2 +1,20 @@
 {% extends 'base.html' %}
-Hola Mundo!!
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            {% if user.es_administrador %}
+                <h3>Bienvenido {{ user.nombre }}, como adminstrador!!</h3>
+            {% elif user.es_granjero %}
+                <h3>Bienvenido {{ user.nombre }}, como granjero!! </h3>
+            {% elif user.es_veterinario %}
+                <h3>Bienvenido {{ user.nombre }}, como veterinario!! </h3>
+            {% endif %}
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'registro-nave' %}" class="btn btn-success">Crear Nave</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

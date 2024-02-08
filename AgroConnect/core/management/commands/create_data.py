@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from core.models import (
     Animal, BajaEnfermedad, CapaAnimal, CustomUser, 
-    Direccion, Enfermedad, Granja, Granjero, LoteCubricion, 
+    Enfermedad, Nave, Granjero, LoteCubricion, 
     Muerte, Raza, TipoAnimal, Veterinario
 )
 from datetime import datetime, date
@@ -82,33 +82,6 @@ class Command(BaseCommand):
         animal15.save()
         animal16.save()
 
-        paises = ['España']
-        poblaciones = ['Calanda', 'Alcañiz', 'Zaragoza', 'Foz']
-        provincias = ['Teruel']
-        codigos_postales = ['44570', '55667', '67890', '54321']
-        direcciones = ['C/Sierra', 'C/Solo', 'C/Alli', 'C/Perdida']
-
-        direccion1 = Direccion.objects.create(direccion=direcciones[0], poblacion=poblaciones[0], 
-                                              provincia=provincias[0], codigo_postal=codigos_postales[0],
-                                              pais=paises[0]
-                                              )
-        direccion2 = Direccion.objects.create(direccion=direcciones[1], poblacion=poblaciones[1], 
-                                              provincia=provincias[0], codigo_postal=codigos_postales[1],
-                                              pais=paises[0]
-                                              )
-        direccion3 = Direccion.objects.create(direccion=direcciones[2], poblacion=poblaciones[2], 
-                                              provincia=provincias[0], codigo_postal=codigos_postales[2],
-                                              pais=paises[0]
-                                            )
-        direccion4 = Direccion.objects.create(direccion=direcciones[3], poblacion=poblaciones[3], 
-                                              provincia=provincias[0], codigo_postal=codigos_postales[3],
-                                              pais=paises[0]
-                                            )
-        direccion1.save()
-        direccion2.save()
-        direccion3.save()
-        direccion4.save()
-
         lote_cubricion1 = LoteCubricion.objects.create(nombre='Lote1',semental=animal1, fecha_cubricion=date(2024, 1, 30))
         lote_cubricion1.grupo_animales.add(animal1, animal2, animal3, animal4)
         lote_cubricion2 = LoteCubricion.objects.create(
@@ -129,39 +102,57 @@ class Command(BaseCommand):
         lote_cubricion3.save()
         lote_cubricion4.save()
 
-        granja1 = Granja.objects.create(
-            direccion=direccion1
-        )
-        granja1.animales.add(animal1, animal2, animal3, animal4)
-        granja1.granjeros.add(granjero1)
-        granja1.veterinarios.add(veterinario1)
-        granja1.lotes_de_cubricion.add(lote_cubricion1)
+        paises = ['España']
+        poblaciones = ['Calanda', 'Alcañiz', 'Zaragoza', 'Foz']
+        provincias = ['Teruel']
+        codigos_postales = ['44570', '55667', '67890', '54321']
+        direcciones = ['C/Sierra', 'C/Solo', 'C/Alli', 'C/Perdida']
 
-        granja2 = Granja.objects.create(
-            direccion=direccion2
+        nave1 = Nave.objects.create(
+            nombre_nave='Nave 1',
+            direccion=direcciones[0], poblacion=poblaciones[0], 
+            provincia=provincias[0], codigo_postal=codigos_postales[0],
+            pais=paises[0]
         )
-        granja2.animales.add(animal5, animal6, animal7, animal8)
-        granja2.granjeros.add(granjero2)
-        granja2.veterinarios.add(veterinario2)
-        granja2.lotes_de_cubricion.add(lote_cubricion2)
+        nave1.animales.add(animal1, animal2, animal3, animal4)
+        nave1.granjeros.add(granjero1)
+        nave1.veterinarios.add(veterinario1)
+        nave1.lotes_de_cubricion.add(lote_cubricion1)
 
-        granja3 = Granja.objects.create(
-            direccion=direccion3
+        nave2 = Nave.objects.create(
+            nombre_nave='Nave 2',
+            direccion=direcciones[1], poblacion=poblaciones[1], 
+            provincia=provincias[0], codigo_postal=codigos_postales[1],
+            pais=paises[0]
         )
-        granja3.animales.add(animal9, animal10, animal11, animal12)
-        granja3.granjeros.add(granjero3)
-        granja3.veterinarios.add(veterinario3)
-        granja3.lotes_de_cubricion.add(lote_cubricion3)
+        nave2.animales.add(animal5, animal6, animal7, animal8)
+        nave2.granjeros.add(granjero2)
+        nave2.veterinarios.add(veterinario2)
+        nave2.lotes_de_cubricion.add(lote_cubricion2)
 
-        granja4 = Granja.objects.create(
-            direccion=direccion4
+        nave3 = Nave.objects.create(
+            nombre_nave='Nave 3',
+            direccion=direcciones[2], poblacion=poblaciones[2], 
+            provincia=provincias[0], codigo_postal=codigos_postales[2],
+            pais=paises[0]
         )
-        granja4.animales.add(animal13, animal14, animal15, animal16)
-        granja4.granjeros.add(granjero4)
-        granja4.veterinarios.add(veterinario4)
-        granja4.lotes_de_cubricion.add(lote_cubricion4)
+        nave3.animales.add(animal9, animal10, animal11, animal12)
+        nave3.granjeros.add(granjero3)
+        nave3.veterinarios.add(veterinario3)
+        nave3.lotes_de_cubricion.add(lote_cubricion3)
 
-        granja1.save()
-        granja2.save()
-        granja3.save()
-        granja4.save()
+        nave4 = Nave.objects.create(
+            nombre_nave='Nave 4',
+            direccion=direcciones[3], poblacion=poblaciones[3], 
+            provincia=provincias[0], codigo_postal=codigos_postales[3],
+            pais=paises[0]
+        )
+        nave4.animales.add(animal13, animal14, animal15, animal16)
+        nave4.granjeros.add(granjero4)
+        nave4.veterinarios.add(veterinario4)
+        nave4.lotes_de_cubricion.add(lote_cubricion4)
+
+        nave1.save()
+        nave2.save()
+        nave3.save()
+        nave4.save()

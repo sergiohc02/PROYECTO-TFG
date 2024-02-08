@@ -1,7 +1,8 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+{% block content %}
 	  <form method="post" class="card" novalidate>
 	  	{% csrf_token %}
-	    <h2 class="text-center">Log in to your account</h2>
+	    <h2 class="text-center">Acceso</h2>
 		{% for field in form %}
 	    		{{ field.label_tag }} 
 	        	{{ field }}
@@ -12,6 +13,7 @@
 		
 		<input type="submit" value="Login" class="btn btn-primary full-width">
 		<hr>
-		<p class="text-center">Forgot your password <a href="#">Reset Password</a></p>
-		<p class="text-center">Don't have a account? <a href="#">Join Now</a></p>
+		<p class="text-center">¿Has olvidado tu contraseña? <a href="{% url 'password-reset' %}">Restablecer Contraseña</a></p>
+		<p class="text-center">¿No tienes una cuenta? Regístrate!! <a href="{% url 'registro-administrador' %}">Regístrate</a></p>
 	</form>
+{% endblock %}
