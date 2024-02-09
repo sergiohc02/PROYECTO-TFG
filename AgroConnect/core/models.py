@@ -77,7 +77,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Granjero(CustomUser):
-    administrador = models.ForeignKey(CustomUser, blank=True)
+    administrador = models.ForeignKey(CustomUser, blank=True, on_delete=models.CASCADE, related_name='Granjeros')
     creado = models.DateTimeField(auto_now=True)
     modificado = models.DateTimeField(auto_now_add=True)
 
@@ -86,7 +86,7 @@ class Granjero(CustomUser):
 
 
 class Veterinario(CustomUser):
-    administrador = models.ForeignKey(CustomUser, blank=True)
+    administrador = models.ForeignKey(CustomUser, blank=True, on_delete=models.CASCADE, related_name='Veterinarios')
     creado = models.DateTimeField(auto_now=True)
     modificado = models.DateTimeField(auto_now_add=True)
 
@@ -129,7 +129,8 @@ class Enfermedad(models.Model):
     
 
 class Animal(models.Model):
-    #TODO ... ¿Asignar el animal a una nave?
+    #TODO ¿Asignar administrador?
+    nave = models.ForeignKey('Nave', blank=True, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=30)
     numero = models.CharField(max_length=10)
     raza = models.ForeignKey(Raza, on_delete=models.CASCADE)
@@ -187,6 +188,7 @@ class BajaEnfermedad(models.Model):
 
 
 class LoteCubricion(models.Model):
+    nave = models.ForeignKey('Nave', blank=True, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=30)
     grupo_animales = models.ManyToManyField(Animal, blank=True, related_name='grupo_animales')
     semental = models.ForeignKey(Animal, on_delete=models.CASCADE)
@@ -201,11 +203,12 @@ class LoteCubricion(models.Model):
 
 
 class Nave(models.Model):
+    administrador = models.ForeignKey(CustomUser, blank=True, on_delete=models.CASCADE)
     nombre_nave = models.CharField(max_length=255)
     granjeros = models.ManyToManyField(Granjero, blank=True, related_name='granjeros')
     veterinarios = models.ManyToManyField(Veterinario, blank=True, related_name='veterinarios')
-    animales = models.ManyToManyField(Animal, blank=True, related_name='animales')
-    lotes_de_cubricion = models.ManyToManyField(LoteCubricion, blank=True, related_name='lotes_de_cubricion')
+    # animales = models.ManyToManyField(Animal, blank=True, related_name='animales')
+    # lotes_de_cubricion = models.ManyToManyField(LoteCubricion, blank=True, related_name='lotes_de_cubricion')
     direccion = models.CharField(max_length=255)
     poblacion = models.CharField(max_length=255)
     provincia = models.CharField(max_length=100)

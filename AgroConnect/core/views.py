@@ -11,7 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import (
     FormularioRegistroAdministradorForm, FormularioRegistroNave, FormularioRegistroGranjero, FormularioRegistroVeterinario
 )
-from .models import CustomUser, Nave, Granjero
+from .models import CustomUser, Nave, Granjero, Veterinario
 
 
 class PaginaAcceso(LoginView):
@@ -84,19 +84,38 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class RegistroGranjero(LoginRequiredMixin, CreateView):
+class RegistroGranjeroView(LoginRequiredMixin, CreateView):
     form_class = FormularioRegistroGranjero
     model = Granjero
     success_url = '/dashboard/'
     template_name = 'granjero/registrar-granjero.html'
 
     def form_valid(self, form):
-        self.object = form.save()
         form.instance.administrador = self.request.user
         password = form.cleaned_data['password']
-        self.object.set_password(password)
-        self.object.es_granjero = True
-        self.object.save()
+        form.instance.set_password(password)
+        form.instance.es_granjero = True
+        self.object = form.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'AgroConnect'
+        return context
+
+
+class RegistroVeterinarioView(LoginRequiredMixin, CreateView):
+    form_class = FormularioRegistroVeterinario
+    model = Veterinario
+    success_url = '/dashboard/'
+    template_name = 'veterinario/registrar-veterinario.html'
+
+    def form_valid(self, form):
+        form.instance.administrador = self.request.user
+        password = form.cleaned_data['password']
+        form.instance.set_password(password)
+        form.instance.es_veterinario = True
+        self.object = form.save()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -116,3 +135,16 @@ class RegistroNaveView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['titulo'] = 'AgroConnect'
         return context
+    
+    def get_form_kwargs(self):
+        """Return the keyword arguments for instantiating the form."""
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        if hasattr(self, "object"):
+            kwargs.update({"instance": self.object})
+        return kwargs
+    
+    def form_valid(self, form):
+        form.instance.administrador = self.request.user
+        self.object = form.save()
+        return super().form_valid(form)

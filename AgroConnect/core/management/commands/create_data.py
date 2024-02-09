@@ -22,19 +22,19 @@ class Command(BaseCommand):
         user1.save()
         user2.save()
 
-        granjero1 = Granjero.objects.crear_granjero(email='granjero1@admin.com', password='1234')
-        granjero2 = Granjero.objects.crear_granjero(email='granjero2@admin.com', password='1234')
-        granjero3 = Granjero.objects.crear_granjero(email='granjero3@admin.com', password='1234')
-        granjero4 = Granjero.objects.crear_granjero(email='granjero4@admin.com', password='1234')
+        granjero1 = Granjero.objects.crear_granjero(administrador=admin, email='granjero1@admin.com', password='1234')
+        granjero2 = Granjero.objects.crear_granjero(administrador=admin, email='granjero2@admin.com', password='1234')
+        granjero3 = Granjero.objects.crear_granjero(administrador=admin, email='granjero3@admin.com', password='1234')
+        granjero4 = Granjero.objects.crear_granjero(administrador=admin, email='granjero4@admin.com', password='1234')
         granjero1.save()
         granjero2.save()
         granjero3.save()
         granjero4.save()
 
-        veterinario1 = Veterinario.objects.crear_veterinario(email='veterinario1@admin.com', password='1234')
-        veterinario2 = Veterinario.objects.crear_veterinario(email='veterinario2@admin.com', password='1234')
-        veterinario3 = Veterinario.objects.crear_veterinario(email='veterinario3@admin.com', password='1234')
-        veterinario4 = Veterinario.objects.crear_veterinario(email='veterinario4@admin.com', password='1234')
+        veterinario1 = Veterinario.objects.crear_veterinario(administrador=admin, email='veterinario1@admin.com', password='1234')
+        veterinario2 = Veterinario.objects.crear_veterinario(administrador=admin, email='veterinario2@admin.com', password='1234')
+        veterinario3 = Veterinario.objects.crear_veterinario(administrador=admin, email='veterinario3@admin.com', password='1234')
+        veterinario4 = Veterinario.objects.crear_veterinario(administrador=admin, email='veterinario4@admin.com', password='1234')
         veterinario1.save()
         veterinario2.save()
         veterinario3.save()
@@ -49,22 +49,73 @@ class Command(BaseCommand):
         raza1 = Raza.objects.create(nombre='Pura Raza')
         raza1.save()
 
-        animal1 = Animal.objects.create(nombre='Animal1',numero='1', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=True)
-        animal2 = Animal.objects.create(nombre='Animal2',numero='2', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
-        animal3 = Animal.objects.create(nombre='Animal3',numero='3', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
-        animal4 = Animal.objects.create(nombre='Animal4',numero='4', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
-        animal5 = Animal.objects.create(nombre='Animal5',numero='5', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=True)
-        animal6 = Animal.objects.create(nombre='Animal6',numero='6', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
-        animal7 = Animal.objects.create(nombre='Animal7',numero='7', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
-        animal8 = Animal.objects.create(nombre='Animal8',numero='8', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
-        animal9 = Animal.objects.create(nombre='Animal9',numero='9', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=True)
-        animal10 = Animal.objects.create(nombre='Animal10',numero='10', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
-        animal11 = Animal.objects.create(nombre='Animal11',numero='11', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
-        animal12 = Animal.objects.create(nombre='Animal12',numero='12', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
-        animal13 = Animal.objects.create(nombre='Animal13',numero='13', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=True)
-        animal14 = Animal.objects.create(nombre='Animal14',numero='14', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
-        animal15 = Animal.objects.create(nombre='Animal15',numero='15', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
-        animal16 = Animal.objects.create(nombre='Animal16',numero='16', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
+        paises = ['España']
+        poblaciones = ['Calanda', 'Alcañiz', 'Zaragoza', 'Foz']
+        provincias = ['Teruel']
+        codigos_postales = ['44570', '55667', '67890', '54321']
+        direcciones = ['C/Sierra', 'C/Solo', 'C/Alli', 'C/Perdida']
+
+        nave1 = Nave.objects.create(
+            administrador=admin,
+            nombre_nave='Nave 1',
+            direccion=direcciones[0], poblacion=poblaciones[0], 
+            provincia=provincias[0], codigo_postal=codigos_postales[0],
+            pais=paises[0]
+        )
+        nave1.granjeros.add(granjero1)
+        nave1.veterinarios.add(veterinario1)
+
+        nave2 = Nave.objects.create(
+            administrador=admin,
+            nombre_nave='Nave 2',
+            direccion=direcciones[1], poblacion=poblaciones[1], 
+            provincia=provincias[0], codigo_postal=codigos_postales[1],
+            pais=paises[0]
+        )
+        nave2.granjeros.add(granjero2)
+        nave2.veterinarios.add(veterinario2)
+
+        nave3 = Nave.objects.create(
+            administrador=admin,
+            nombre_nave='Nave 3',
+            direccion=direcciones[2], poblacion=poblaciones[2], 
+            provincia=provincias[0], codigo_postal=codigos_postales[2],
+            pais=paises[0]
+        )
+        nave3.granjeros.add(granjero3)
+        nave3.veterinarios.add(veterinario3)
+
+        nave4 = Nave.objects.create(
+            administrador=admin,
+            nombre_nave='Nave 4',
+            direccion=direcciones[3], poblacion=poblaciones[3], 
+            provincia=provincias[0], codigo_postal=codigos_postales[3],
+            pais=paises[0]
+        )
+        nave4.granjeros.add(granjero4)
+        nave4.veterinarios.add(veterinario4)
+
+        nave1.save()
+        nave2.save()
+        nave3.save()
+        nave4.save()
+
+        animal1 = Animal.objects.create(nave=nave1, nombre='Animal1',numero='1', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=True)
+        animal2 = Animal.objects.create(nave=nave1, nombre='Animal2',numero='2', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
+        animal3 = Animal.objects.create(nave=nave1, nombre='Animal3',numero='3', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
+        animal4 = Animal.objects.create(nave=nave1, nombre='Animal4',numero='4', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
+        animal5 = Animal.objects.create(nave=nave2, nombre='Animal5',numero='5', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=True)
+        animal6 = Animal.objects.create(nave=nave2, nombre='Animal6',numero='6', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
+        animal7 = Animal.objects.create(nave=nave2, nombre='Animal7',numero='7', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
+        animal8 = Animal.objects.create(nave=nave2, nombre='Animal8',numero='8', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
+        animal9 = Animal.objects.create(nave=nave3, nombre='Animal9',numero='9', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=True)
+        animal10 = Animal.objects.create(nave=nave3, nombre='Animal10',numero='10', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
+        animal11 = Animal.objects.create(nave=nave3, nombre='Animal11',numero='11', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
+        animal12 = Animal.objects.create(nave=nave3, nombre='Animal12',numero='12', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
+        animal13 = Animal.objects.create(nave=nave4, nombre='Animal13',numero='13', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=True)
+        animal14 = Animal.objects.create(nave=nave4, nombre='Animal14',numero='14', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
+        animal15 = Animal.objects.create(nave=nave4, nombre='Animal15',numero='15', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
+        animal16 = Animal.objects.create(nave=nave4, nombre='Animal16',numero='16', raza=raza1, capa=capa1, tipo=tipo1, fecha_nacimiento=datetime.now() ,altura=1.25 ,peso=213, es_semental=False)
         animal1.save()
         animal2.save()
         animal3.save()
@@ -82,18 +133,19 @@ class Command(BaseCommand):
         animal15.save()
         animal16.save()
 
-        lote_cubricion1 = LoteCubricion.objects.create(nombre='Lote1',semental=animal1, fecha_cubricion=date(2024, 1, 30))
+        lote_cubricion1 = LoteCubricion.objects.create(
+            nave=nave1, nombre='Lote1',semental=animal1, fecha_cubricion=date(2024, 1, 30))
         lote_cubricion1.grupo_animales.add(animal1, animal2, animal3, animal4)
         lote_cubricion2 = LoteCubricion.objects.create(
-            nombre='Lote2',semental=animal5, fecha_cubricion=date(2024, 1, 30)
+            nave=nave2, nombre='Lote2',semental=animal5, fecha_cubricion=date(2024, 1, 30)
         )
         lote_cubricion2.grupo_animales.add(animal5, animal6, animal7, animal8)
         lote_cubricion3 = LoteCubricion.objects.create(
-            nombre='Lote3',semental=animal9, fecha_cubricion=date(2024, 1, 30)
+            nave=nave3, nombre='Lote3',semental=animal9, fecha_cubricion=date(2024, 1, 30)
         )
         lote_cubricion3.grupo_animales.add(animal9, animal10, animal11, animal12)
         lote_cubricion4 = LoteCubricion.objects.create(
-            nombre='Lote4',semental=animal13, fecha_cubricion=date(2024, 1, 30)
+            nave=nave4, nombre='Lote4',semental=animal13, fecha_cubricion=date(2024, 1, 30)
         )
         lote_cubricion4.grupo_animales.add(animal13, animal14, animal15, animal16)
 
@@ -101,58 +153,3 @@ class Command(BaseCommand):
         lote_cubricion2.save()
         lote_cubricion3.save()
         lote_cubricion4.save()
-
-        paises = ['España']
-        poblaciones = ['Calanda', 'Alcañiz', 'Zaragoza', 'Foz']
-        provincias = ['Teruel']
-        codigos_postales = ['44570', '55667', '67890', '54321']
-        direcciones = ['C/Sierra', 'C/Solo', 'C/Alli', 'C/Perdida']
-
-        nave1 = Nave.objects.create(
-            nombre_nave='Nave 1',
-            direccion=direcciones[0], poblacion=poblaciones[0], 
-            provincia=provincias[0], codigo_postal=codigos_postales[0],
-            pais=paises[0]
-        )
-        nave1.animales.add(animal1, animal2, animal3, animal4)
-        nave1.granjeros.add(granjero1)
-        nave1.veterinarios.add(veterinario1)
-        nave1.lotes_de_cubricion.add(lote_cubricion1)
-
-        nave2 = Nave.objects.create(
-            nombre_nave='Nave 2',
-            direccion=direcciones[1], poblacion=poblaciones[1], 
-            provincia=provincias[0], codigo_postal=codigos_postales[1],
-            pais=paises[0]
-        )
-        nave2.animales.add(animal5, animal6, animal7, animal8)
-        nave2.granjeros.add(granjero2)
-        nave2.veterinarios.add(veterinario2)
-        nave2.lotes_de_cubricion.add(lote_cubricion2)
-
-        nave3 = Nave.objects.create(
-            nombre_nave='Nave 3',
-            direccion=direcciones[2], poblacion=poblaciones[2], 
-            provincia=provincias[0], codigo_postal=codigos_postales[2],
-            pais=paises[0]
-        )
-        nave3.animales.add(animal9, animal10, animal11, animal12)
-        nave3.granjeros.add(granjero3)
-        nave3.veterinarios.add(veterinario3)
-        nave3.lotes_de_cubricion.add(lote_cubricion3)
-
-        nave4 = Nave.objects.create(
-            nombre_nave='Nave 4',
-            direccion=direcciones[3], poblacion=poblaciones[3], 
-            provincia=provincias[0], codigo_postal=codigos_postales[3],
-            pais=paises[0]
-        )
-        nave4.animales.add(animal13, animal14, animal15, animal16)
-        nave4.granjeros.add(granjero4)
-        nave4.veterinarios.add(veterinario4)
-        nave4.lotes_de_cubricion.add(lote_cubricion4)
-
-        nave1.save()
-        nave2.save()
-        nave3.save()
-        nave4.save()

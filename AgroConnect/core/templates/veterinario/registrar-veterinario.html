@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <form method="post" class="card" novalidate>
+        {% csrf_token %}
+        <h2 class="text-center">Formulario de Registro de nuevo Veterinario</h2>
+        {% for field in form %}
+                {{ field.label_tag }} 
+                {{ field }}
+                {% if field.errors %}
+                    <small>{{ field.errors|striptags }}</small> 
+                {% endif %}
+        {% endfor %}
+
+        <input type="submit" value="Crear Veterinario" class="btn btn-success">
+    </form>
+
+{% endblock %}
