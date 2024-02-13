@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row d-flex mt-2 mb-2 p-2">
+        <div class="col-md-8">
+            <h2>{{ nave.nombre_nave }}</h2>
+        </div>
+        <div class="col-md-4 justify-content-between m-auto">
+            <a href="#" class="btn btn-outline-warning">Crear Animal</a>
+            <a href="#" class="btn btn-outline-success">Crear Lote</a>
+            <a href="#" class="btn btn-outline-primary">Editar Nave</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-dark table-hover">
+                <caption>
+                    TABLA DE GRANJEROS
+                </caption>
+                <thead>
+                    <th>#</th>
+                    <th>Email</th>
+                    <th>Nombre</th>
+                    <th>Administrador</th>
+                </thead>
+                <tbody>
+                    {% for granjero in nave.granjeros.all %}
+                        <tr>
+                            <td>{{ granjero.id }}</td>
+                            <td>{{ granjero.email }}</td>
+                            <td>{{ granjero.nombre }}</td>
+                            <td>{{ granjero.administrador }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <table class="table table-dark table-hover">
+                <caption>
+                    TABLA DE VETERINARIOS
+                </caption>
+                <thead>
+                    <th>#</th>
+                    <th>Email</th>
+                    <th>Nombre</th>
+                    <th>Administrador</th>
+                </thead>
+                <tbody>
+                    {% for veterinario in nave.veterinarios.all %}
+                        <tr>
+                            <td>{{ veterinario.id }}</td>
+                            <td>{{ veterinario.email }}</td>
+                            <td>{{ veterinario.nombre }}</td>
+                            <td>{{ veterinario.administrador }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-dark table-hover">
+                <thead>
+                    <th>#</th>
+                    <th>Nave</th>
+                    <th>Nombre del Animal</th>
+                    <th>Raza</th>
+                    <th>Capa</th>
+                    <th>Tipo</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Altura</th>
+                    <th>Peso</th>
+                    <th>Semental</th>
+                    <th>Nº de Bajas</th>
+                    <th>Activo</th>
+                    <th>Vivo</th>
+                    <th>Baja</th>
+                </thead>
+                <tbody>
+                    {% for animal in nave.animal_set.all %}
+                        <tr>
+                            <td>{{ animal.id }}</td>
+                            <td>{{ animal.nave }}</td>
+                            <td>{{ animal.nombre }}</td>
+                            <td>{{ animal.raza }}</td>
+                            <td>{{ animal.capa }}</td>
+                            <td>{{ animal.tipo }}</td>
+                            <td>{{ animal.fecha_nacimiento }}</td>
+                            <td>{{ animal.altura }}</td>
+                            <td>{{ animal.peso }}</td>
+                            <td>{{ animal.es_semental }}</td>
+                            <td>{{ animal.veces_baja }}</td>
+                            <td>{{ animal.esta_activo }}</td>
+                            <td>{{ animal.esta_vivo }}</td>
+                            <td>{{ animal.esta_baja }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

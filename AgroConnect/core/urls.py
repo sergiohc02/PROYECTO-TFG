@@ -28,6 +28,8 @@ urlpatterns = [
     path('password_reset_complete/', views.PasswordResetComplete.as_view(), name='password_reset_complete'),
     path('dashboard/', views.DashboardView.as_view(), name='dashboard'),
     path('dashboard/registro_nave/', views.RegistroNaveView.as_view(), name='registro-nave'),
+    path('dashboard/detalle_nave/<int:pk>/', views.DetalleNaveView.as_view(), name='detalle-nave'),
     path('dashboard/registro_granjero/', views.RegistroGranjeroView.as_view(), name='registro-granjero'),
     path('dashboard/registro_veterinario/', views.RegistroVeterinarioView.as_view(), name='registro-veterinario'),
+    path('dashboard/animal_detalle/<int:pk>/', views.AnimalDetalleView.as_view(), name='detalle-animal'),
 ]

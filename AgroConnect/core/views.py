@@ -1,5 +1,6 @@
+from django.db.models.query import QuerySet
 from django.shortcuts import render
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, DetailView
 from django.contrib.auth.views import (
     LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView,
     PasswordResetCompleteView
@@ -11,7 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import (
     FormularioRegistroAdministradorForm, FormularioRegistroNave, FormularioRegistroGranjero, FormularioRegistroVeterinario
 )
-from .models import CustomUser, Nave, Granjero, Veterinario
+from .models import CustomUser, Nave, Granjero, Veterinario, Animal
 
 
 class PaginaAcceso(LoginView):
@@ -148,3 +149,18 @@ class RegistroNaveView(LoginRequiredMixin, CreateView):
         form.instance.administrador = self.request.user
         self.object = form.save()
         return super().form_valid(form)
+
+
+class DetalleNaveView(LoginRequiredMixin, DetailView):
+    model = Nave
+    context_object_name = 'nave'
+    template_name = 'nave/detalle-nave.html'
+
+    # def get_queryset(self):
+    #     return Nave.objects.get(id=self.kwargs['pk'])
+
+
+class AnimalDetalleView(LoginRequiredMixin, DetailView):
+    model = Animal
+    context_object_name = 'animal'
+    template_name = 'animal/detalle-animal.html'
