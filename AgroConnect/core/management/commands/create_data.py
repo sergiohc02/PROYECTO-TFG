@@ -1,8 +1,10 @@
+from django.core.files import File
 from django.core.management.base import BaseCommand
 from core.models import (
     Animal, BajaEnfermedad, CapaAnimal, CustomUser, 
-    Enfermedad, Nave, Granjero, LoteCubricion, 
-    Muerte, Raza, TipoAnimal, Veterinario
+    Enfermedad, Nave, LoteCubricion, 
+    Muerte, Raza, TipoAnimal, Veterinario, 
+    PictureAnimal
 )
 from datetime import datetime, date
 
@@ -14,27 +16,45 @@ class Command(BaseCommand):
         # parser.add_argument('sample', nargs='+')
 
     def handle(self, *args, **options):
-        admin = CustomUser.objects.create_superuser(email='admin@admin.com', password='1234')
+        admin = CustomUser.objects.create_superuser(
+            email='admin@admin.com', password='1234', nombre='Javier', apellidos='Fernández'
+        )
         admin.save()
 
-        user1 = CustomUser.objects.create_user(email='user1@admin.com', password='1234')
-        user2 = CustomUser.objects.create_user(email='user2@admin.com', password='1234')
+        user1 = CustomUser.objects.create_user(
+            email='user1@admin.com', password='1234', es_administrador=True, nombre='Mario', apellidos='Fernández'
+        )
+        user2 = CustomUser.objects.create_user(
+            email='user2@admin.com', password='1234', es_administrador=True, nombre='Raúl', apellidos='Correcueros'
+        )
         user1.save()
         user2.save()
 
-        granjero1 = Granjero.objects.crear_granjero(administrador=admin, email='granjero1@admin.com', password='1234')
-        granjero2 = Granjero.objects.crear_granjero(administrador=admin, email='granjero2@admin.com', password='1234')
-        granjero3 = Granjero.objects.crear_granjero(administrador=admin, email='granjero3@admin.com', password='1234')
-        granjero4 = Granjero.objects.crear_granjero(administrador=admin, email='granjero4@admin.com', password='1234')
-        granjero1.save()
-        granjero2.save()
-        granjero3.save()
-        granjero4.save()
+        # granjero1 = Granjero.objects.crear_granjero(administrador=admin, email='granjero1@admin.com', password='1234')
+        # granjero2 = Granjero.objects.crear_granjero(administrador=admin, email='granjero2@admin.com', password='1234')
+        # granjero3 = Granjero.objects.crear_granjero(administrador=admin, email='granjero3@admin.com', password='1234')
+        # granjero4 = Granjero.objects.crear_granjero(administrador=admin, email='granjero4@admin.com', password='1234')
+        # granjero1.save()
+        # granjero2.save()
+        # granjero3.save()
+        # granjero4.save()
 
-        veterinario1 = Veterinario.objects.crear_veterinario(administrador=admin, email='veterinario1@admin.com', password='1234')
-        veterinario2 = Veterinario.objects.crear_veterinario(administrador=admin, email='veterinario2@admin.com', password='1234')
-        veterinario3 = Veterinario.objects.crear_veterinario(administrador=admin, email='veterinario3@admin.com', password='1234')
-        veterinario4 = Veterinario.objects.crear_veterinario(administrador=admin, email='veterinario4@admin.com', password='1234')
+        veterinario1 = Veterinario.objects.crear_veterinario(
+            administrador=user1, email='veterinario1@admin.com', password='1234', nombre='Javier',
+            apellidos='Sonsola'
+        )
+        veterinario2 = Veterinario.objects.crear_veterinario(
+            administrador=user1, email='veterinario2@admin.com', password='1234', nombre='Rodrigo',
+            apellidos='Sol'
+        )
+        veterinario3 = Veterinario.objects.crear_veterinario(
+            administrador=user2, email='veterinario3@admin.com', password='1234', nombre='Sergio',
+            apellidos='Hueso'
+        )
+        veterinario4 = Veterinario.objects.crear_veterinario(
+            administrador=user2, email='veterinario4@admin.com', password='1234', nombre='Leandro',
+            apellidos='López'
+        )
         veterinario1.save()
         veterinario2.save()
         veterinario3.save()
@@ -56,44 +76,40 @@ class Command(BaseCommand):
         direcciones = ['C/Sierra', 'C/Solo', 'C/Alli', 'C/Perdida']
 
         nave1 = Nave.objects.create(
-            administrador=admin,
+            administrador=user1,
             nombre_nave='Nave 1',
             direccion=direcciones[0], poblacion=poblaciones[0], 
             provincia=provincias[0], codigo_postal=codigos_postales[0],
             pais=paises[0]
         )
-        nave1.granjeros.add(granjero1)
-        nave1.veterinarios.add(veterinario1)
+        nave1.veterinarios.add(veterinario1, veterinario2)
 
         nave2 = Nave.objects.create(
-            administrador=admin,
+            administrador=user1,
             nombre_nave='Nave 2',
             direccion=direcciones[1], poblacion=poblaciones[1], 
             provincia=provincias[0], codigo_postal=codigos_postales[1],
             pais=paises[0]
         )
-        nave2.granjeros.add(granjero2)
-        nave2.veterinarios.add(veterinario2)
+        nave2.veterinarios.add(veterinario1, veterinario2)
 
         nave3 = Nave.objects.create(
-            administrador=admin,
+            administrador=user2,
             nombre_nave='Nave 3',
             direccion=direcciones[2], poblacion=poblaciones[2], 
             provincia=provincias[0], codigo_postal=codigos_postales[2],
             pais=paises[0]
         )
-        nave3.granjeros.add(granjero3)
-        nave3.veterinarios.add(veterinario3)
+        nave3.veterinarios.add(veterinario3, veterinario4)
 
         nave4 = Nave.objects.create(
-            administrador=admin,
+            administrador=user2,
             nombre_nave='Nave 4',
             direccion=direcciones[3], poblacion=poblaciones[3], 
             provincia=provincias[0], codigo_postal=codigos_postales[3],
             pais=paises[0]
         )
-        nave4.granjeros.add(granjero4)
-        nave4.veterinarios.add(veterinario4)
+        nave4.veterinarios.add(veterinario3, veterinario4)
 
         nave1.save()
         nave2.save()
@@ -132,6 +148,150 @@ class Command(BaseCommand):
         animal14.save()
         animal15.save()
         animal16.save()
+
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-2.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen1 = PictureAnimal(
+                animal=animal1, 
+                imagen=file_image
+                )
+            imagen1.save()
+        
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-3.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen2 = PictureAnimal(
+                animal=animal2, 
+                imagen=file_image
+                )
+            imagen2.save()
+        
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-3.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen3 = PictureAnimal(
+                animal=animal3, 
+                imagen=file_image
+                )
+            imagen3.save()
+        
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-4.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen4 = PictureAnimal(
+                animal=animal4, 
+                imagen=file_image
+                )
+            imagen4.save()
+        
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-5.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen5 = PictureAnimal(
+                animal=animal5, 
+                imagen=file_image
+                )
+            imagen5.save()
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-6.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen6 = PictureAnimal(
+                animal=animal6, 
+                imagen=file_image
+                )
+            imagen6.save()
+
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-7.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen7 = PictureAnimal(
+                animal=animal7, 
+                imagen=file_image
+                )
+            imagen7.save()
+        
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-8.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen8 = PictureAnimal(
+                animal=animal8, 
+                imagen=file_image
+                )
+            imagen8.save()
+        
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-9.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen9 = PictureAnimal(
+                animal=animal9, 
+                imagen=file_image
+                )
+            imagen9.save()
+        
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-10.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen10 = PictureAnimal(
+                animal=animal10, 
+                imagen=file_image
+                )
+            imagen10.save()
+        
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-11.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen11 = PictureAnimal(
+                animal=animal11, 
+                imagen=file_image
+                )
+            imagen11.save()
+        
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-12.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen12 = PictureAnimal(
+                animal=animal12, 
+                imagen=file_image
+                )
+            imagen12.save()
+        
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-13.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen13 = PictureAnimal(
+                animal=animal13, 
+                imagen=file_image
+                )
+            imagen13.save()
+        
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-14.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen14 = PictureAnimal(
+                animal=animal14, 
+                imagen=file_image
+                )
+            imagen14.save()
+        
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-2.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen15 = PictureAnimal(
+                animal=animal15, 
+                imagen=file_image
+                )
+            imagen15.save()
+        
+        with open('C:\\Users\\sergi\\OneDrive\\Desktop\\PROYECTO - TFG\\AgroConnect\\core\\static\\images\\caballos\\caballo-3.jpg', 'r+b') as image:
+            file_image = File(image)
+
+            imagen16 = PictureAnimal(
+                animal=animal16, 
+                imagen=file_image
+                )
+            imagen16.save()
+        
 
         lote_cubricion1 = LoteCubricion.objects.create(
             nave=nave1, nombre='Lote1',semental=animal1, fecha_cubricion=date(2024, 1, 30))

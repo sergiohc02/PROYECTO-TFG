@@ -9,10 +9,10 @@ import uuid
 #     filename = f'{uuid.uuid4()}.{ext}'
 #     return f'media/user_profile/{filename}'
 
-# def animal_image_upload_path(instance, filename):
-#     ext = filename.split('.')[-1]
-#     filename = f'{uuid.uuid4()}.{ext}'
-#     return f'media/animales/{filename}'
+def animal_image_upload_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+    return f'media/animales/{filename}'
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -20,15 +20,6 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('El Email es obligatorio')
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-    
-    def crear_granjero(self, email, password=None, es_granjero=True, **extra_fields):
-        if not email:
-            raise ValueError('El Email es obligatorio')
-        email = self.normalize_email(email)
-        user = self.model(email=email, es_granjero=es_granjero, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -61,7 +52,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     nombre = models.CharField(max_length=30)
     apellidos = models.CharField(max_length=30)
-    es_granjero = models.BooleanField(default=False)
     es_veterinario = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -76,13 +66,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
-class Granjero(CustomUser):
-    administrador = models.ForeignKey(CustomUser, blank=True, on_delete=models.CASCADE, related_name='Granjeros')
-    creado = models.DateTimeField(auto_now=True)
-    modificado = models.DateTimeField(auto_now_add=True)
+# class Granjero(CustomUser):
+#     administrador = models.ForeignKey(CustomUser, blank=True, on_delete=models.CASCADE, related_name='Granjeros')
+#     creado = models.DateTimeField(auto_now=True)
+#     modificado = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f'{self.nombre} {self.email} es granjero {self.es_granjero}' 
+#     def __str__(self):
+#         return f'{self.nombre} {self.email} es granjero {self.es_granjero}'
 
 
 class Veterinario(CustomUser):
@@ -154,16 +144,16 @@ class Animal(models.Model):
         verbose_name_plural = 'Animales'
 
 
-# class ImagenAnimal(models.Model):
-#     animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
-#     imagen = models.ImageField(upload_to=animal_image_upload_path)
-#     imagen_thumbnail = ImageSpecField(source='imagen',
-#                                       processors=[ResizeToFill(100, 50)],
-#                                       format='JPEG',
-#                                       options={'quality': 60})
+class PictureAnimal(models.Model):
+    animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
+    imagen = models.ImageField(upload_to=animal_image_upload_path)
+    imagen_thumbnail = ImageSpecField(source='imagen',
+                                      processors=[ResizeToFill(100, 100)],
+                                      format='JPEG',
+                                      options={'quality': 60})
     
-#     def __str__(self) -> str:
-#         return f'{self.id} {self.animal}'
+    def __str__(self) -> str:
+        return f'{self.id} {self.animal}'
 
 
 class Muerte(models.Model):
@@ -205,10 +195,7 @@ class LoteCubricion(models.Model):
 class Nave(models.Model):
     administrador = models.ForeignKey(CustomUser, blank=True, on_delete=models.CASCADE)
     nombre_nave = models.CharField(max_length=255)
-    granjeros = models.ManyToManyField(Granjero, blank=True, related_name='granjeros')
     veterinarios = models.ManyToManyField(Veterinario, blank=True, related_name='veterinarios')
-    # animales = models.ManyToManyField(Animal, blank=True, related_name='animales')
-    # lotes_de_cubricion = models.ManyToManyField(LoteCubricion, blank=True, related_name='lotes_de_cubricion')
     direccion = models.CharField(max_length=255)
     poblacion = models.CharField(max_length=255)
     provincia = models.CharField(max_length=100)

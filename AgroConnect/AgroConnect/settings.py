@@ -137,9 +137,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    BASE_DIR / 'core/static/img',
+    BASE_DIR / 'core/static',
 ]
-#ESTA LÍNEA ESTÁ SIENDO GESTIONADA POR WHITENOISE
+
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 # Default primary key field type

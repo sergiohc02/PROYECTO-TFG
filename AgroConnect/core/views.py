@@ -1,6 +1,6 @@
 from django.db.models.query import QuerySet
 from django.shortcuts import render
-from django.views.generic import TemplateView, CreateView, DetailView
+from django.views.generic import TemplateView, CreateView, DetailView, ListView
 from django.contrib.auth.views import (
     LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView,
     PasswordResetCompleteView
@@ -10,15 +10,20 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import (
-    FormularioRegistroAdministradorForm, FormularioRegistroNave, FormularioRegistroGranjero, FormularioRegistroVeterinario
+    FormularioRegistroAdministradorForm, FormularioRegistroNave, FormularioRegistroVeterinario
 )
-from .models import CustomUser, Nave, Granjero, Veterinario, Animal
+from .models import CustomUser, Nave, Veterinario, Animal
 
 
 class PaginaAcceso(LoginView):
     redirect_authenticated_user = True
     
     def get_success_url(self):
+        if self.request.user.is_superuser:
+            return reverse_lazy('admin:index')
+        # elif self.request.user.es_veterinario:
+        #     #TODO Crear página veterinarios , y redirigir
+        #     return reverse_lazy('dashboard')
         return reverse_lazy('dashboard')
     
     def form_invalid(self, form):
@@ -85,26 +90,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class RegistroGranjeroView(LoginRequiredMixin, CreateView):
-    form_class = FormularioRegistroGranjero
-    model = Granjero
-    success_url = '/dashboard/'
-    template_name = 'granjero/registrar-granjero.html'
-
-    def form_valid(self, form):
-        form.instance.administrador = self.request.user
-        password = form.cleaned_data['password']
-        form.instance.set_password(password)
-        form.instance.es_granjero = True
-        self.object = form.save()
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['titulo'] = 'AgroConnect'
-        return context
-
-
 class RegistroVeterinarioView(LoginRequiredMixin, CreateView):
     form_class = FormularioRegistroVeterinario
     model = Veterinario
@@ -123,7 +108,6 @@ class RegistroVeterinarioView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['titulo'] = 'AgroConnect'
         return context
-
 
 
 class RegistroNaveView(LoginRequiredMixin, CreateView):
@@ -164,3 +148,38 @@ class AnimalDetalleView(LoginRequiredMixin, DetailView):
     model = Animal
     context_object_name = 'animal'
     template_name = 'animal/detalle-animal.html'
+
+
+class ListNavesView(LoginRequiredMixin, ListView):
+    model = Nave
+    template_name = 'nave/lista-naves.html'
+    context_object_name = 'naves'
+
+    def get_queryset(self):
+        if self.request.user.es_veterinario:
+            administrador = self.request.user.veterinario.administrador
+            return Nave.objects.filter(administrador=administrador)
+        
+        return Nave.objects.filter(administrador=self.request.user)
+
+
+class ListAnimalesView(LoginRequiredMixin, ListView):
+    model = Animal
+    template_name = 'animal/lista-animales.html'
+    context_object_name = 'animales'
+
+    def get_queryset(self):
+        if self.request.user.es_veterinario:
+            administrador = self.request.user.veterinario.administrador
+            return Animal.objects.filter(nave__administrador=administrador)
+        
+        return Animal.objects.filter(nave__administrador=self.request.user)
+
+
+class ListVeterinariosView(LoginRequiredMixin, ListView):
+    model = Veterinario
+    template_name = 'veterinario/lista-veterinarios.html'
+    context_object_name = 'veterinarios'
+
+    def get_queryset(self):
+        return Veterinario.objects.filter(administrador=self.request.user)

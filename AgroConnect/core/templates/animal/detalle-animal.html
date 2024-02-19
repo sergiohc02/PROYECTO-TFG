@@ -263,5 +263,15 @@
             </div>
         </div>
     </div>
+
+    <div class="row pd-2 mt-2 mb-2">
+        {% for imagen in animal.pictureanimal_set.all %}
+        <div class="col-md-1">
+            <a class="demo" href="{{ imagen.imagen.url }}" data-lightbox="gallery">
+              <img class="example-image" src="{{ imagen.imagen_thumbnail.url }}" alt="image-1">
+            </a>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

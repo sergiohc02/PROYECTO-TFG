@@ -5,16 +5,11 @@
     <div class="row p-2">
         <div class="col-md-8">
             {% if user.es_administrador %}
-                <h3>Bienvenido {{ user.nombre }}, como adminstrador!!</h3>
-            {% elif user.es_granjero %}
-                <h3>Bienvenido {{ user.nombre }}, como granjero!! </h3>
-            {% elif user.es_veterinario %}
-                <h3>Bienvenido {{ user.nombre }}, como veterinario!! </h3>
+                <h3>Bienvenido {{ user.nombre }}, como granjero</h3>
             {% endif %}
         </div>
         <div class="col-md-4 d-flex justify-content-between m-auto">
             <a href="{% url 'registro-nave' %}" class="btn btn btn-outline-warning">Crear Nave</a>
-            <a href="{% url 'registro-granjero' %}" class="btn btn-outline-success">Crear Granjero</a>
             <a href="{% url 'registro-veterinario' %}" class="btn btn-outline-primary">Crear Veterinario</a>
         </div>
     </div>

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-2 mt-2">
+    <div class="col-md-12">
+        <table class="table table-dark table-hover">
+            <caption>TABLA LISTA DE VETERINARIOS</caption>
+            <thead>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Email</th>
+            </thead>
+            <tbody>
+                {% for veterinario in veterinarios %}
+                    <tr id="row-{{ veterinario.id }}">
+                        <td>{{ veterinario.id }}</td>
+                        <td>{{ veterinario.nombre }}</td>
+                        <td>{{ veterinario.apellidos }}</td>
+                        <td>{{ veterinario.email }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
