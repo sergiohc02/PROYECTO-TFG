@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 from core.models import (
     Animal, BajaEnfermedad, CapaAnimal, CustomUser, 
     Enfermedad, Nave, LoteCubricion, 
-    Muerte, Raza, TipoAnimal, Veterinario, 
+    Muerte, Nacimiento, Raza, TipoAnimal, Veterinario,
     PictureAnimal
 )
 from datetime import datetime, date
@@ -313,3 +313,101 @@ class Command(BaseCommand):
         lote_cubricion2.save()
         lote_cubricion3.save()
         lote_cubricion4.save()
+
+        # Nacimientos
+        animal_nacido1 = Animal.objects.create(
+            nave=nave1, nombre='Rit', numero=12, raza=raza1,
+            capa=capa1, tipo=tipo1, fecha_nacimiento=date(2024, 2, 20),
+            altura=1.23, peso=80
+        )
+        animal_nacido1.save()
+
+        nacimiento1 = Nacimiento.objects.create(
+            animal=animal_nacido1, padre=animal1, madre=animal2,
+            lote_cubricion=lote_cubricion1,
+            fecha_nacimiento=animal_nacido1.fecha_nacimiento
+        )
+        nacimiento1.save()
+
+        animal_nacido2 = Animal.objects.create(
+            nave=nave2, nombre='Seser', numero=14, raza=raza1,
+            capa=capa1, tipo=tipo1, fecha_nacimiento=date(2024, 2, 20),
+            altura=1.23, peso=80
+        )
+        animal_nacido2.save()
+
+        nacimiento2 = Nacimiento.objects.create(
+            animal=animal_nacido2, padre=animal5, madre=animal6,
+            lote_cubricion=lote_cubricion2,
+            fecha_nacimiento=animal_nacido2.fecha_nacimiento
+        )
+        nacimiento2.save()
+
+        animal_nacido3 = Animal.objects.create(
+            nave=nave3, nombre='Sr', numero=34, raza=raza1,
+            capa=capa1, tipo=tipo1, fecha_nacimiento=date(2024, 2, 20),
+            altura=1.23, peso=80
+        )
+        animal_nacido3.save()
+
+        nacimiento3 = Nacimiento.objects.create(
+            animal=animal_nacido3, padre=animal9, madre=animal10,
+            lote_cubricion=lote_cubricion3,
+            fecha_nacimiento=animal_nacido3.fecha_nacimiento
+        )
+        nacimiento3.save()
+
+        animal_nacido4 = Animal.objects.create(
+            nave=nave4, nombre='Tirachinas', numero=11, raza=raza1,
+            capa=capa1, tipo=tipo1, fecha_nacimiento=date(2024, 2, 20),
+            altura=1.23, peso=80
+        )
+        animal_nacido4.save()
+
+        nacimiento4 = Nacimiento.objects.create(
+            animal=animal_nacido4, padre=animal13, madre=animal14,
+            lote_cubricion=lote_cubricion4,
+            fecha_nacimiento=animal_nacido4.fecha_nacimiento
+        )
+        nacimiento4.save()
+
+        #MUERTES
+        muerte1 = Muerte.objects.create(
+            animal=animal3, fecha_muerte=date(2024, 2, 20)
+        )
+        muerte1.save()
+
+        animal3.veces_baja = 1
+        animal3.esta_vivo = False
+        animal3.esta_baja = True
+        animal3.save()
+
+        muerte2 = Muerte.objects.create(
+            animal=animal7, fecha_muerte=date(2024, 2, 20)
+        )
+        muerte2.save()
+
+        animal7.veces_baja = 1
+        animal7.esta_vivo = False
+        animal7.esta_baja = True
+        animal7.save()
+
+        muerte3 = Muerte.objects.create(
+            animal=animal11, fecha_muerte=date(2024, 2, 20)
+        )
+        muerte3.save()
+
+        animal11.veces_baja = 1
+        animal11.esta_vivo = False
+        animal11.esta_baja = True
+        animal11.save()
+
+        muerte4 = Muerte.objects.create(
+            animal=animal15, fecha_muerte=date(2024, 2, 20)
+        )
+        muerte4.save()
+
+        animal15.veces_baja = 1
+        animal15.esta_vivo = False
+        animal15.esta_baja = True
+        animal15.save()

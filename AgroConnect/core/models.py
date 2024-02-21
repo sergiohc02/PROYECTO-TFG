@@ -144,6 +144,31 @@ class Animal(models.Model):
         verbose_name_plural = 'Animales'
 
 
+class Nacimiento(models.Model):
+    animal = models.OneToOneField(Animal, on_delete=models.CASCADE, related_name='animal_nacido')
+    padre = models.OneToOneField(Animal, on_delete=models.CASCADE, related_name='nacimiento_padre')
+    madre = models.OneToOneField(Animal, on_delete=models.CASCADE, related_name='nacimiento_madre')
+    lote_cubricion = models.ForeignKey('LoteCubricion', on_delete=models.CASCADE)
+    fecha_nacimiento = models.DateTimeField()
+
+    def __str__(self) -> str:
+        return f'{self.animal.nombre} padre: {self.padre.nombre} fecha: {self.fecha_nacimiento}'
+    
+    class Meta:
+        verbose_name_plural = 'Nacimientos'
+
+
+class Muerte(models.Model):
+    animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
+    fecha_muerte = models.DateTimeField()
+
+    def __str__(self) -> str:
+        return f'{self.animal.nombre} fecha de la muerte: {self.fecha_muerte}'
+    
+    class Meta:
+        verbose_name_plural = 'Muertes'
+
+
 class PictureAnimal(models.Model):
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE)
     imagen = models.ImageField(upload_to=animal_image_upload_path)
@@ -154,15 +179,6 @@ class PictureAnimal(models.Model):
     
     def __str__(self) -> str:
         return f'{self.id} {self.animal}'
-
-
-class Muerte(models.Model):
-    animal = models.OneToOneField(Animal, on_delete=models.CASCADE)
-    fecha_defuncion = models.DateTimeField()
-    tipo_muerte = models.CharField(max_length=255)
-
-    def __str__(self) -> str:
-        return f'{self.id_animal} {self.fecha_defuncion}'
 
 
 class BajaEnfermedad(models.Model):

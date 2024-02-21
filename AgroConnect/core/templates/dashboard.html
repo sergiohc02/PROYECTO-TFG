@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="row d-flex p-2 justify-content-between">
-        <div class="col-md-3 d-flex">
+        <div class="col-md-4 d-flex">
             <svg width="55px" height="55px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
             viewBox="0 0 511.843 511.843" xml:space="preserve">
        <polygon style="fill:#646C77;" points="451.033,92.304 255.921,22.542 63.417,92.554 11.878,235.626 501.018,235.626 "/>
@@ -49,11 +49,11 @@
                     <h6 class="">Naves en Funcionamiento</h6>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">7 naves</p>
+                    <p class="card-text">{{numero_naves}} naves</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 d-flex">
+        <div class="col-md-4 d-flex">
             <svg width="55px" height="55px" viewBox="0 0 300 300" id="dog2" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
                 <g>
@@ -124,11 +124,11 @@
                     <h6 class="">Animales Totales</h6>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">7 animales</p>
+                    <p class="card-text">{{numero_animales}} animales</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 d-flex">
+        <!-- <div class="col-md-3 d-flex">
             <svg width="55px" height="55px" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--twemoji" preserveAspectRatio="xMidYMid meet"><path fill="#77B255" d="M36 36v-2a6 6 0 0 0-6-6H14a6 6 0 0 0-6 6v2h28z"></path><path fill="#3E721D" d="M22 34c.767 0 5-3 5-6H17c0 3 4.233 6 5 6z"></path><path fill="#F7DECE" d="M17.64 28.038c0 2.846 8.72 2.962 8.72 0v-3.749h-8.72v3.749z"></path><path fill="#EEC2AD" d="M17.632 25.973c1.216 1.374 2.724 1.746 4.364 1.746c1.639 0 3.147-.372 4.364-1.746v-3.491h-8.728v3.491z"></path><path fill="#292F33" d="M25.152 3.3c-1.925-.623-5.876-.46-7.008 1.012c-1.873.036-1.596 3.71-5.113 2.967c-.738 1.004-1.259 2.198-1.424 3.476c-.448 3.475.235 4.874.591 7.486c.403 2.96 2.067 3.907 3.397 4.303c1.914 2.529 3.949 2.421 7.366 2.421c6.672 0 9.271-4.458 9.552-12.04c.08-2.157-.473-4.067-1.584-5.649c-3.837 1.49-3.213-3.146-5.777-3.976z"></path><path fill="#F7DECE" d="M29.547 13.243c-.646-.894-1.472-1.614-3.284-1.868c.68.311 1.874 2.202 1.959 2.797c.085.595.17 1.076-.368.481c-2.155-2.382-5.045-2.259-7.37-3.714c-1.624-1.016-2.119-2.141-2.119-2.141s-.198 1.5-2.661 3.029c-.714.443-1.566 1.43-2.038 2.888c-.34 1.048-.234 1.982-.234 3.578c0 4.66 3.841 8.578 8.578 8.578s8.578-3.953 8.578-8.578c-.002-2.898-.305-4.03-1.041-5.05z"></path><path fill="#C1694F" d="M22.961 20.677h-1.906a.477.477 0 1 1 0-.954h1.906a.477.477 0 1 1 0 .954z"></path><path fill="#662113" d="M18.195 17.341a.953.953 0 0 1-.953-.953v-.953a.953.953 0 0 1 1.906 0v.953a.953.953 0 0 1-.953.953zm7.626 0a.953.953 0 0 1-.953-.953v-.953a.953.953 0 0 1 1.906 0v.953a.953.953 0 0 1-.953.953z"></path><path fill="#C1694F" d="M22.134 24.657c-2.754 0-3.6-.705-3.741-.848a.655.655 0 0 1 .902-.95c.052.037.721.487 2.839.487c2.2 0 2.836-.485 2.842-.49a.638.638 0 0 1 .913.015a.67.67 0 0 1-.014.939c-.142.142-.987.847-3.741.847"></path><path fill="#3B88C3" d="M13 28h3v8h-3zm15 0h3v8h-3z"></path><path fill="#3B88C3" d="M13.125 35H31v1H13.125z"></path><path fill="#C1694F" d="M30 8.8c0 1.32-3.092 2.2-8 2.2c-4.909 0-8-.88-8-2.2C14 5.253 18 0 19.333 0C20.667 0 21.556 1.76 22 1.76S23.333 0 24.667 0C26 0 30 5.253 30 8.8z"></path><path fill="#C1694F" d="M35.941 8c0 1.657-3.5 6-14 6s-14-4.343-14-6s6.82-1 14-1s14-.657 14 1z"></path><path fill="#292F33" d="M30 8.8c0 1.32-3.092 2.2-8 2.2c-4.909 0-8-.88-8-2.2c0-.566.102-1.175.279-1.8c2.388 2 13.054 2 15.443.004c.175.623.278 1.231.278 1.796z"></path><path fill="#C1694F" d="M7 31.75a1.25 1.25 0 0 0-2.5 0V36H7v-4.25z"></path><path fill="#66757F" d="M10.003 22.75c0 2.35-1.904 4.253-4.253 4.253S1.497 25.1 1.497 22.75c0-.086-1.497-.084-1.497 0a5.75 5.75 0 0 0 11.5 0c0-.084-1.497-.086-1.497 0z"></path><path fill="#66757F" d="M1.5 22.75a.75.75 0 0 1-1.5 0v-8.5a.75.75 0 0 1 1.5 0v8.5zm10 0a.75.75 0 0 1-1.5 0v-8.5a.75.75 0 0 1 1.5 0v8.5zM6.5 31A.75.75 0 0 1 5 31V14.25a.75.75 0 0 1 1.5 0V31z"></path>
             </svg>
             <div class="p-2">
@@ -139,8 +139,8 @@
                     <p class="card-text">7 Granjeros</p>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3 d-flex">
+        </div> -->
+        <div class="col-md-4 d-flex">
             <svg height="55px" width="55px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 	        viewBox="0 0 512 512" xml:space="preserve">
                 <path style="fill:#B3B3B3;" d="M227.156,273.921l-10.211,111.424H67.376c-25.356,0-47.023-15.834-55.623-38.167
@@ -260,7 +260,7 @@
                     <h6 class="">Veterinarios Activos</h6>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">7 Veterinarios</p>
+                    <p class="card-text">{{veterinarios}} Veterinarios</p>
                 </div>
             </div>
         </div>
@@ -318,7 +318,7 @@
                     <h6 class="">Animales Vivos</h6>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">7 Animales Vivos</p>
+                    <p class="card-text">{{animales_vivos}} Animales Vivos</p>
                 </div>
             </div>
         </div>
@@ -375,7 +375,7 @@
                     <h6 class="">Animales de Baja</h6>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">7 Animales de Baja</p>
+                    <p class="card-text">{{animales_baja}} Animales de Baja</p>
                 </div>
             </div>
         </div>
@@ -442,7 +442,7 @@
                     <h6 class="">Animales Muertos</h6>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">7 Animales Muertos</p>
+                    <p class="card-text">{{animales_muertos}} Animales Muertos</p>
                 </div>
             </div>
         </div>
@@ -450,84 +450,54 @@
 
     <div class="row mt-2 mb-2">
         <div class="col-md-6">
-          <canvas class="p-2" id="myChart" width="400" height="400"></canvas>
+          <canvas class="p-2" id="graficoNacimientosMuertes" width="400" height="400"></canvas>
           <script>
-          var ctx = document.getElementById('myChart').getContext('2d');
-          var myChart = new Chart(ctx, {
-              type: 'doughnut',
-              data: {
-                  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                  datasets: [{
-                      label: '# of Votes',
-                      data: [12, 19, 3, 5, 2, 3],
-                      backgroundColor: [
-                          'rgba(255, 99, 132, 0.2)',
-                          'rgba(54, 162, 235, 0.2)',
-                          'rgba(255, 206, 86, 0.2)',
-                          'rgba(75, 192, 192, 0.2)',
-                          'rgba(153, 102, 255, 0.2)',
-                          'rgba(255, 159, 64, 0.2)'
-                      ],
-                      borderColor: [
-                          'rgba(255, 99, 132, 1)',
-                          'rgba(54, 162, 235, 1)',
-                          'rgba(255, 206, 86, 1)',
-                          'rgba(75, 192, 192, 1)',
-                          'rgba(153, 102, 255, 1)',
-                          'rgba(255, 159, 64, 1)'
-                      ],
-                      borderWidth: 1
-                  }]
-              },
-              options: {
-                  scales: {
-                      y: {
-                          beginAtZero: true
-                      }
-                  }
-              }
-          });
+          var nacimientosMuertesCanvas = document.getElementById('graficoNacimientosMuertes').getContext('2d');
+          var nacimientosMuertesData = {
+            labels: [
+                "Nacimientos",
+                "Muertes"
+            ],
+            datasets: [
+                {
+                    data: [{{nacimientos}}, {{muertes}}],
+                    backgroundColor: [
+                        "#63FF84",
+                        "#FF6384"
+                    ]
+                }]
+        };
+
+        var pieChart = new Chart(nacimientosMuertesCanvas, {
+            type: 'doughnut',
+            data: nacimientosMuertesData
+            });
           </script>
         </div>
         <div class="col-md-6">
-          <canvas class="p-2" id="myChart2" width="400" height="400"></canvas>
-          <script>
-          var ctx = document.getElementById('myChart2').getContext('2d');
-          var myChart = new Chart(ctx, {
-              type: 'doughnut',
-              data: {
-                  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                  datasets: [{
-                      label: '# of Votes',
-                      data: [12, 19, 3, 5, 2, 3],
+            <canvas class="p-2" id="graficoVeterinariosAnimales" width="400" height="400"></canvas>
+            <script>
+            var veterinariosAnimalesCanvas = document.getElementById('graficoVeterinariosAnimales').getContext('2d');
+            var veterinariosAnimalesData = {
+              labels: [
+                  "Veterinarios",
+                  "Animales"
+              ],
+              datasets: [
+                  {
+                      data: [{{veterinarios}}, {{numero_animales}}],
                       backgroundColor: [
-                          'rgba(255, 99, 132, 0.2)',
-                          'rgba(54, 162, 235, 0.2)',
-                          'rgba(255, 206, 86, 0.2)',
-                          'rgba(75, 192, 192, 0.2)',
-                          'rgba(153, 102, 255, 0.2)',
-                          'rgba(255, 159, 64, 0.2)'
-                      ],
-                      borderColor: [
-                          'rgba(255, 99, 132, 1)',
-                          'rgba(54, 162, 235, 1)',
-                          'rgba(255, 206, 86, 1)',
-                          'rgba(75, 192, 192, 1)',
-                          'rgba(153, 102, 255, 1)',
-                          'rgba(255, 159, 64, 1)'
-                      ],
-                      borderWidth: 1
+                          "#630a23",
+                          "#690a91"
+                      ]
                   }]
-              },
-              options: {
-                  scales: {
-                      y: {
-                          beginAtZero: true
-                      }
-                  }
-              }
-          });
-          </script>
+          };
+  
+          var pieChart = new Chart(veterinariosAnimalesCanvas, {
+              type: 'pie',
+              data: veterinariosAnimalesData
+              });
+            </script>
         </div>
     </div>
     <div class="row mb-2 mt-2">
@@ -537,163 +507,95 @@
                 <thead>
                     <th>#</th>
                     <th>Nombre Nave</th>
-                    <th>Administrador</th>
-                    <th>Nº de Granjeros</th>
+                    <th>Veterinarios</th>
+                    <th>Dirección</th>
                     <th>Nº de Veterinarios</th>
                     <th>Nº de Animales</th>
                     <th>Nº de Lotes</th>
-                    <th>Dirección</th>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Nave 1</td>
-                        <td>Admin</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>7</td>
-                        <td>C/tal</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Nave 1</td>
-                        <td>Admin</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>7</td>
-                        <td>C/tal</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Nave 1</td>
-                        <td>Admin</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>7</td>
-                        <td>C/tal</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Nave 1</td>
-                        <td>Admin</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>7</td>
-                        <td>C/tal</td>
-                    </tr>
+                    {% for nave in naves %}
+                        <a href="{% url 'detalle-nave' pk=nave.id %}">
+                            <tr id="row-{{ nave.id }}">
+                                <td>{{ nave.id }}</td>
+                                <td>{{ nave.nombre_nave }}</td>
+                                <td>{% for veterinario in nave.veterinarios.all %}
+                                        {{ veterinario.email }}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ nave.direccion }} {{ nave.poblacion }} {{ nave.provincia }} {{ nave.codigo_postal }} {{ nave.pais }}</td>
+                                <td>{{ nave.veterinarios.all.count }}</td>
+                                <td>{{ nave.animal_set.all.count }}</td>
+                                <td>{{ nave.lotecubricion_set.all.count }}</td>
+                            </tr>
+                        </a>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
+    <script>
+        {% for nave in naves %}
+            const row{{nave.id}} = document.getElementById('row-{{nave.id}}')
+            row{{nave.id}}.addEventListener('click', () => {
+                window.location.href = '{% url 'detalle-nave' pk=nave.id %}'
+            });
+        {% endfor %}
+    </script>
     
-    <div class="row mt-2 mb-2">
+    <div class="row mb-2 mt-2">
         <div class="col-md-12">
             <table class="table table-dark table-hover">
-                <caption>TABLA ANIMALES</caption>
+                <caption>TABLA LISTA DE ANIMALES</caption>
                 <thead>
                     <th>#</th>
-                    <th>Nave</th>
-                    <th>Nombre del Animal</th>
+                    <th>Nombre Nave</th>
+                    <th>Nombre de Animal</th>
+                    <th>Número de Animal</th>
                     <th>Raza</th>
                     <th>Capa</th>
                     <th>Tipo</th>
                     <th>Fecha de Nacimiento</th>
                     <th>Altura</th>
                     <th>Peso</th>
-                    <th>Semental</th>
-                    <th>Nº de Bajas</th>
-                    <th>Activo</th>
-                    <th>Vivo</th>
-                    <th>Baja</th>
+                    <th>¿Es Semental?</th>
+                    <th>Veces de Baja</th>
+                    <th>¿Está Activo?</th>
+                    <th>¿Está Vivo?</th>
+                    <th>¿Está de Baja?</th>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Nave 1</td>
-                        <td>Matarratas</td>
-                        <td>Limousin</td>
-                        <td>Castaño</td>
-                        <td>Vaca</td>
-                        <td>28/07/2020</td>
-                        <td>1.24</td>
-                        <td>225 Kg</td>
-                        <td>Si</td>
-                        <td>3</td>
-                        <td>Si</td>
-                        <td>Si</td>
-                        <td>No</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Nave 1</td>
-                        <td>Matarratas</td>
-                        <td>Limousin</td>
-                        <td>Castaño</td>
-                        <td>Vaca</td>
-                        <td>28/07/2020</td>
-                        <td>1.24</td>
-                        <td>225 Kg</td>
-                        <td>Si</td>
-                        <td>3</td>
-                        <td>Si</td>
-                        <td>Si</td>
-                        <td>No</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Nave 1</td>
-                        <td>Matarratas</td>
-                        <td>Limousin</td>
-                        <td>Castaño</td>
-                        <td>Vaca</td>
-                        <td>28/07/2020</td>
-                        <td>1.24</td>
-                        <td>225 Kg</td>
-                        <td>Si</td>
-                        <td>3</td>
-                        <td>Si</td>
-                        <td>Si</td>
-                        <td>No</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Nave 1</td>
-                        <td>Matarratas</td>
-                        <td>Limousin</td>
-                        <td>Castaño</td>
-                        <td>Vaca</td>
-                        <td>28/07/2020</td>
-                        <td>1.24</td>
-                        <td>225 Kg</td>
-                        <td>Si</td>
-                        <td>3</td>
-                        <td>Si</td>
-                        <td>Si</td>
-                        <td>No</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Nave 1</td>
-                        <td>Matarratas</td>
-                        <td>Limousin</td>
-                        <td>Castaño</td>
-                        <td>Vaca</td>
-                        <td>28/07/2020</td>
-                        <td>1.24</td>
-                        <td>225 Kg</td>
-                        <td>Si</td>
-                        <td>3</td>
-                        <td>Si</td>
-                        <td>Si</td>
-                        <td>No</td>
-                    </tr>
+                    {% for animal in animales %}
+                        <tr id="row-{{ animal.id }}">
+                            <td>{{ animal.id }}</td>
+                            <td>{{ animal.nave.nombre_nave }}</td>
+                            <td>{{ animal.nombre }}</td>
+                            <td>{{ animal.numero }}</td>
+                            <td>{{ animal.raza }}</td>
+                            <td>{{ animal.capa }}</td>
+                            <td>{{ animal.tipo }}</td>
+                            <td>{{ animal.fecha_nacimiento }}</td>
+                            <td>{{ animal.altura }}</td>
+                            <td>{{ animal.peso }}</td>
+                            <td>{{ animal.es_semental }}</td>
+                            <td>{{ animal.veces_baja }}</td>
+                            <td>{{ animal.esta_activo }}</td>
+                            <td>{{ animal.esta_vivo }}</td>
+                            <td>{{ animal.esta_baja }}</td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
+    
+    <script>
+        {% for animal in animales %}
+            const row{{animal.id}} = document.getElementById('row-{{animal.id}}')
+            row{{animal.id}}.addEventListener('click', () => {
+                window.location.href = '{% url 'detalle-animal' pk=animal.id %}'
+            });
+        {% endfor %}
+    </script>
 </div>
 {% endblock %}

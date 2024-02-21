@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import (
     FormularioRegistroAdministradorForm, FormularioRegistroNave, FormularioRegistroVeterinario
 )
-from .models import CustomUser, Nave, Veterinario, Animal
+from .models import CustomUser, Nave, Veterinario, Animal, Nacimiento, Muerte
 
 
 class PaginaAcceso(LoginView):
@@ -86,7 +86,16 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['titulo'] = 'AgroConnect'
+        context['naves'] = Nave.objects.filter(administrador=self.request.user)
+        context['animales'] = Animal.objects.filter(nave__administrador=self.request.user)
+        context['numero_naves'] = Nave.objects.filter(administrador=self.request.user).count()
+        context['nacimientos'] = Nacimiento.objects.filter(animal__nave__administrador=self.request.user).count()
+        context['muertes'] = Muerte.objects.filter(animal__nave__administrador=self.request.user).count()
+        context['veterinarios'] = Veterinario.objects.filter(administrador=self.request.user).count()
+        context['numero_animales'] = Animal.objects.filter(nave__administrador=self.request.user).count()
+        context['animales_vivos'] = Animal.objects.filter(nave__administrador=self.request.user, esta_vivo=True).count()
+        context['animales_baja'] = Animal.objects.filter(nave__administrador=self.request.user, esta_baja=True).count()
+        context['animales_muertos'] = Animal.objects.filter(nave__administrador=self.request.user, esta_vivo=False).count()
         return context
 
 

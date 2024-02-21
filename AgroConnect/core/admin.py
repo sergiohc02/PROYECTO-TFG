@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 from django.contrib import admin
 
-from .models import CustomUser, Veterinario, Raza, CapaAnimal, TipoAnimal, Enfermedad, Animal, PictureAnimal, Muerte, BajaEnfermedad, LoteCubricion, Nave
+from .models import CustomUser, Veterinario, Raza, CapaAnimal, TipoAnimal, Enfermedad, Animal, Nacimiento, Muerte, PictureAnimal, BajaEnfermedad, LoteCubricion, Nave
 
 
 @admin.register(CustomUser)
@@ -112,16 +113,35 @@ class AnimalAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(PictureAnimal)
-class PictureAnimalAdmin(admin.ModelAdmin):
-    list_display = ('id', 'animal', 'imagen')
-    list_filter = ('animal',)
+@admin.register(Nacimiento)
+class NacimientoAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'animal',
+        'padre',
+        'madre',
+        'lote_cubricion',
+        'fecha_nacimiento',
+    )
+    list_filter = (
+        'animal',
+        'padre',
+        'madre',
+        'lote_cubricion',
+        'fecha_nacimiento',
+    )
 
 
 @admin.register(Muerte)
 class MuerteAdmin(admin.ModelAdmin):
-    list_display = ('id', 'animal', 'fecha_defuncion', 'tipo_muerte')
-    list_filter = ('animal', 'fecha_defuncion')
+    list_display = ('id', 'animal', 'fecha_muerte')
+    list_filter = ('animal', 'fecha_muerte')
+
+
+@admin.register(PictureAnimal)
+class PictureAnimalAdmin(admin.ModelAdmin):
+    list_display = ('id', 'animal', 'imagen')
+    list_filter = ('animal',)
 
 
 @admin.register(BajaEnfermedad)
