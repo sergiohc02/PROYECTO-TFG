@@ -11,6 +11,7 @@
         <div class="col-md-4 d-flex justify-content-between m-auto">
             <a href="{% url 'registro-nave' %}" class="btn btn btn-outline-warning">Crear Nave</a>
             <a href="{% url 'registro-veterinario' %}" class="btn btn-outline-primary">Crear Veterinario</a>
+            <a href="{% url 'registro-animal' %}" class="btn btn-outline-success">Crear Animal</a>
         </div>
     </div>
     <div class="row d-flex p-2 justify-content-between">
@@ -566,7 +567,7 @@
                 </thead>
                 <tbody>
                     {% for animal in animales %}
-                        <tr id="row-{{ animal.id }}">
+                        <tr id="fila-{{ animal.id }}">
                             <td>{{ animal.id }}</td>
                             <td>{{ animal.nave.nombre_nave }}</td>
                             <td>{{ animal.nombre }}</td>
@@ -591,8 +592,8 @@
     
     <script>
         {% for animal in animales %}
-            const row{{animal.id}} = document.getElementById('row-{{animal.id}}')
-            row{{animal.id}}.addEventListener('click', () => {
+            const fila{{animal.id}} = document.getElementById('fila-{{animal.id}}')
+            fila{{animal.id}}.addEventListener('click', () => {
                 window.location.href = '{% url 'detalle-animal' pk=animal.id %}'
             });
         {% endfor %}

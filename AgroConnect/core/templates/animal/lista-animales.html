@@ -2,49 +2,51 @@
 
 {% block content %}
 
-<div class="row mb-2 mt-2">
-    <div class="col-md-12">
-        <table class="table table-dark table-hover">
-            <caption>TABLA LISTA DE ANIMALES</caption>
-            <thead>
-                <th>#</th>
-                <th>Nombre Nave</th>
-                <th>Nombre de Animal</th>
-                <th>Número de Animal</th>
-                <th>Raza</th>
-                <th>Capa</th>
-                <th>Tipo</th>
-                <th>Fecha de Nacimiento</th>
-                <th>Altura</th>
-                <th>Peso</th>
-                <th>¿Es Semental?</th>
-                <th>Veces de Baja</th>
-                <th>¿Está Activo?</th>
-                <th>¿Está Vivo?</th>
-                <th>¿Está de Baja?</th>
-            </thead>
-            <tbody>
-                {% for animal in animales %}
-                    <tr id="row-{{ animal.id }}">
-                        <td>{{ animal.id }}</td>
-                        <td>{{ animal.nave.nombre_nave }}</td>
-                        <td>{{ animal.nombre }}</td>
-                        <td>{{ animal.numero }}</td>
-                        <td>{{ animal.raza }}</td>
-                        <td>{{ animal.capa }}</td>
-                        <td>{{ animal.tipo }}</td>
-                        <td>{{ animal.fecha_nacimiento }}</td>
-                        <td>{{ animal.altura }}</td>
-                        <td>{{ animal.peso }}</td>
-                        <td>{{ animal.es_semental }}</td>
-                        <td>{{ animal.veces_baja }}</td>
-                        <td>{{ animal.esta_activo }}</td>
-                        <td>{{ animal.esta_vivo }}</td>
-                        <td>{{ animal.esta_baja }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="container">
+    <div class="row mb-2 mt-2">
+        <div class="col-md-12">
+            <table class="table table-dark table-hover">
+                <caption>TABLA LISTA DE ANIMALES</caption>
+                <thead>
+                    <th>#</th>
+                    <th>Nombre Nave</th>
+                    <th>Nombre de Animal</th>
+                    <th>Número de Animal</th>
+                    <th>Raza</th>
+                    <th>Capa</th>
+                    <th>Tipo</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Altura</th>
+                    <th>Peso</th>
+                    <th>¿Es Semental?</th>
+                    <th>Veces de Baja</th>
+                    <th>¿Está Activo?</th>
+                    <th>¿Está Vivo?</th>
+                    <th>¿Está de Baja?</th>
+                </thead>
+                <tbody>
+                    {% for animal in animales %}
+                        <tr id="row-{{ animal.id }}">
+                            <td>{{ animal.id }}</td>
+                            <td>{{ animal.nave.nombre_nave }}</td>
+                            <td>{{ animal.nombre }}</td>
+                            <td>{{ animal.numero }}</td>
+                            <td>{{ animal.raza }}</td>
+                            <td>{{ animal.capa }}</td>
+                            <td>{{ animal.tipo }}</td>
+                            <td>{{ animal.fecha_nacimiento }}</td>
+                            <td>{{ animal.altura }}</td>
+                            <td>{{ animal.peso }}</td>
+                            <td>{{ animal.es_semental }}</td>
+                            <td>{{ animal.veces_baja }}</td>
+                            <td>{{ animal.esta_activo }}</td>
+                            <td>{{ animal.esta_vivo }}</td>
+                            <td>{{ animal.esta_baja }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

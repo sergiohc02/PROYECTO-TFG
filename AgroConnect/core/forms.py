@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import CustomUser, Nave, Veterinario
+from .models import CustomUser, Nave, Veterinario, Animal
 
 
 class FormularioRegistroAdministradorForm(ModelForm):
@@ -28,3 +28,14 @@ class FormularioRegistroNave(ModelForm):
     class Meta:
         model = Nave
         fields = ['nombre_nave', 'veterinarios', 'direccion', 'poblacion', 'provincia', 'codigo_postal', 'pais']
+
+
+class FormularioRegistroAnimal(ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        super().__init__(*args, **kwargs)
+        self.fields['nave'].queryset = Nave.objects.filter(administrador=self.request.user)
+    
+    class Meta:
+        model = Animal
+        fields = '__all__'

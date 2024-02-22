@@ -10,7 +10,8 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import (
-    FormularioRegistroAdministradorForm, FormularioRegistroNave, FormularioRegistroVeterinario
+    FormularioRegistroAdministradorForm, FormularioRegistroNave, FormularioRegistroVeterinario,
+    FormularioRegistroAnimal
 )
 from .models import CustomUser, Nave, Veterinario, Animal, Nacimiento, Muerte
 
@@ -21,19 +22,14 @@ class PaginaAcceso(LoginView):
     def get_success_url(self):
         if self.request.user.is_superuser:
             return reverse_lazy('admin:index')
-        # elif self.request.user.es_veterinario:
-        #     #TODO Crear página veterinarios , y redirigir
-        #     return reverse_lazy('dashboard')
+        elif self.request.user.es_veterinario:
+            return reverse_lazy('dashboard-veterinario')
+        
         return reverse_lazy('dashboard')
     
     def form_invalid(self, form):
         messages.error(self.request,'Invalid email or password')
         return self.render_to_response(self.get_context_data(form=form))
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['titulo'] = 'AgroConnect'
-        return context
 
 
 class LogoutView(LogoutView):
@@ -99,6 +95,21 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         return context
 
 
+class DashboardVeterinarioView(LoginRequiredMixin, TemplateView):
+    template_name = 'dashboard-veterinario.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['granjero'] = self.request.user.veterinario.administrador.nombre
+        context['naves'] = Nave.objects.filter(administrador=self.request.user)
+        context['animales'] = Animal.objects.filter(nave__administrador=self.request.user.veterinario.administrador)
+        context['numero_naves'] = Nave.objects.filter(administrador=self.request.user.veterinario.administrador).count()
+        context['numero_animales'] = Animal.objects.filter(nave__administrador=self.request.user.veterinario.administrador).count()
+        context['animales_vivos'] = Animal.objects.filter(nave__administrador=self.request.user.veterinario.administrador, esta_vivo=True).count()
+        context['animales_baja'] = Animal.objects.filter(nave__administrador=self.request.user.veterinario.administrador, esta_baja=True).count()
+        context['animales_muertos'] = Animal.objects.filter(nave__administrador=self.request.user.veterinario.administrador, esta_vivo=False).count()
+        return context
+
 class RegistroVeterinarioView(LoginRequiredMixin, CreateView):
     form_class = FormularioRegistroVeterinario
     model = Veterinario
@@ -125,11 +136,6 @@ class RegistroNaveView(LoginRequiredMixin, CreateView):
     success_url = '/dashboard/'
     template_name = 'nave/registrar-nave.html'
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['titulo'] = 'AgroConnect'
-        return context
-    
     def get_form_kwargs(self):
         """Return the keyword arguments for instantiating the form."""
         kwargs = super().get_form_kwargs()
@@ -142,6 +148,21 @@ class RegistroNaveView(LoginRequiredMixin, CreateView):
         form.instance.administrador = self.request.user
         self.object = form.save()
         return super().form_valid(form)
+
+
+class RegistroAnimalView(LoginRequiredMixin, CreateView):
+    form_class = FormularioRegistroAnimal
+    model = Animal
+    success_url = '/dashboard/'
+    template_name = 'animal/registrar-animal.html'
+
+    def get_form_kwargs(self):
+        """Return the keyword arguments for instantiating the form."""
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        if hasattr(self, "object"):
+            kwargs.update({"instance": self.object})
+        return kwargs
 
 
 class DetalleNaveView(LoginRequiredMixin, DetailView):

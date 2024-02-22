@@ -8,6 +8,8 @@ __pycache__
 AgroConnect/core/migrations/*
 db.sqlite3
 media
+.vscode/
+CACHE
 
 # Backup files # 
 *.bak 

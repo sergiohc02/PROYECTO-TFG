@@ -66,15 +66,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
-# class Granjero(CustomUser):
-#     administrador = models.ForeignKey(CustomUser, blank=True, on_delete=models.CASCADE, related_name='Granjeros')
-#     creado = models.DateTimeField(auto_now=True)
-#     modificado = models.DateTimeField(auto_now_add=True)
-
-#     def __str__(self):
-#         return f'{self.nombre} {self.email} es granjero {self.es_granjero}'
-
-
 class Veterinario(CustomUser):
     administrador = models.ForeignKey(CustomUser, blank=True, on_delete=models.CASCADE, related_name='Veterinarios')
     creado = models.DateTimeField(auto_now=True)
