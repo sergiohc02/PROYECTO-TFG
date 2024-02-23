@@ -1,5 +1,5 @@
 from django.db.models.query import QuerySet
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, CreateView, DetailView, ListView
 from django.contrib.auth.views import (
     LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView,
@@ -9,6 +9,7 @@ from django.contrib.auth.views import (
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from .forms import (
     FormularioRegistroAdministradorForm, FormularioRegistroNave, FormularioRegistroVeterinario,
     FormularioRegistroAnimal
@@ -213,3 +214,39 @@ class ListVeterinariosView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Veterinario.objects.filter(administrador=self.request.user)
+
+@login_required
+def crear_lote_seleccion_nave(request):
+    if request.method == 'GET':
+        context = {
+            'naves': Nave.objects.filter(administrador=request.user.veterinario.administrador)
+        }
+        return render(request, 'animal/crear-lote-naves.html', context)
+    elif request.method == 'POST':
+        nave_seleccionada = request.POST['naves']
+
+    else:
+        return redirect('dashboard-veterinario')
+
+@login_required
+def crear_lote_seleccion_animales(request, nave):
+    if request.method == 'GET':
+        context = {
+            'animales': Animal.objects.filter(
+                nave__administrador=request.user.veterinario.administrador,
+                nave=nave,
+                es_semental=False
+            ),
+
+            'sementales': Animal.objects.filter(
+               nave__administrador=request.user.veterinario.administrador,
+               nave=nave,
+               es_semental=True
+            )
+        }
+        return render(request, 'animal/crear-lote-naves.html', context)
+    elif request.method == 'POST':
+        nave_seleccionada = request.POST['naves']
+        
+    else:
+        return redirect('dashboard-veterinario')

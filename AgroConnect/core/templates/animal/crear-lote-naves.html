@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action=".">
+                    {% csrf_token %}
+                    <label for="naves">Seleccione Nave: </label>
+                    <select name="naves" id="naves">
+                        {% for nave in naves %}
+                            <option value="{{ nave.id }}">{{ nave.nombre_nave }}</option>
+                        {% endfor %}
+                    </select>
+                    <button class="btn btn-success">Continuar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

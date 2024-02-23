@@ -36,4 +36,5 @@ urlpatterns = [
     path('dashboard/animales/', views.ListAnimalesView.as_view(), name='lista-animales'),
     path('dashboard/registrar_animal/', views.RegistroAnimalView.as_view(), name='registro-animal'),
     path('dashboard/animal_detalle/<int:pk>/', views.AnimalDetalleView.as_view(), name='detalle-animal'),
+    path('lote_cubricion/crear/', views.crear_lote_seleccion_nave, name='crear-lote-paso1'),
 ]
