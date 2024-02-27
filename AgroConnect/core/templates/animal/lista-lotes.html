@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row mb-2 mt-2">
+        <div class="col-md-12">
+            <table class="table table-dark table-hover">
+                <caption>TABLA LISTA DE LOTES</caption>
+                <thead>
+                    <th>#</th>
+                    <th>Nombre Nave</th>
+                    <th>Nombre del Lote</th>
+                    <th>Grupo de Animales</th>
+                    <th>Semental</th>
+                    <th>Fecha de la Cubrición</th>
+                    <th>Número de Cubriciones</th>
+                </thead>
+                <tbody>
+                    {% for lote in lotes %}
+                        <tr id="row-{{ lote.id }}">
+                            <td>{{ lote.id }}</td>
+                            <td>{{ lote.nave.nombre_nave }}</td>
+                            <td>{{ lote.nombre }}</td>
+                            <td>{% for animal in lote.grupo_animales.all %}{{ animal.nombre }} {% endfor %}</td>
+                            <td>{{ lote.semental }}</td>
+                            <td>{{ lote.fecha_cubricion }}</td>
+                            <td>{{ lote.numero_cubriciones }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    {% for lote in lotes %}
+        const row{{lote.id}} = document.getElementById('row-{{lote.id}}')
+        row{{lote.id}}.addEventListener('click', () => {
+            window.location.href = '{% url 'detalle-lote' pk=lote.id %}'
+        });
+    {% endfor %}
+</script>
+
+{% endblock %}

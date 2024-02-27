@@ -12,9 +12,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from .forms import (
     FormularioRegistroAdministradorForm, FormularioRegistroNave, FormularioRegistroVeterinario,
-    FormularioRegistroAnimal
+    FormularioRegistroAnimal, FormularioRegistroCapa, FormularioRegistroRaza, FormularioRegistroTipo
 )
-from .models import CustomUser, Nave, Veterinario, Animal, Nacimiento, Muerte
+from .models import (
+    CustomUser, Nave, Veterinario, Animal, Nacimiento, Muerte, LoteCubricion, CapaAnimal, Raza, TipoAnimal
+)
 
 
 class PaginaAcceso(LoginView):
@@ -166,6 +168,27 @@ class RegistroAnimalView(LoginRequiredMixin, CreateView):
         return kwargs
 
 
+class RegistroCapaView(LoginRequiredMixin, CreateView):
+    form_class = FormularioRegistroCapa
+    model = CapaAnimal
+    success_url = '/dashboard/'
+    template_name = 'animal/registrar-capa.html'
+
+
+class RegistroRazaView(LoginRequiredMixin, CreateView):
+    form_class = FormularioRegistroRaza
+    model = Raza
+    success_url = '/dashboard/'
+    template_name = 'animal/registrar-raza.html'
+
+
+class RegistroTipoView(LoginRequiredMixin, CreateView):
+    form_class = FormularioRegistroTipo
+    model = TipoAnimal
+    success_url = '/dashboard/'
+    template_name = 'animal/registrar-tipo.html'
+
+
 class DetalleNaveView(LoginRequiredMixin, DetailView):
     model = Nave
     context_object_name = 'nave'
@@ -223,7 +246,8 @@ def crear_lote_seleccion_nave(request):
         }
         return render(request, 'animal/crear-lote-naves.html', context)
     elif request.method == 'POST':
-        nave_seleccionada = request.POST['naves']
+        nave_seleccionada = request.POST.get('naves', None)
+        return redirect('crear-lote-paso2', nave=nave_seleccionada)
 
     else:
         return redirect('dashboard-veterinario')
@@ -244,9 +268,124 @@ def crear_lote_seleccion_animales(request, nave):
                es_semental=True
             )
         }
-        return render(request, 'animal/crear-lote-naves.html', context)
+        return render(request, 'animal/crear-lote-animales.html', context)
     elif request.method == 'POST':
-        nave_seleccionada = request.POST['naves']
+        nave = Nave.objects.get(id=nave)
+        animales = request.POST.getlist('animales', list())
+        semental = Animal.objects.get(id=request.POST.get('semental', None))
+        nombre = request.POST.get('nombre_lote', None)
+        fecha_cubricion = request.POST.get('fecha_cubricion', None)
+
+        lote = LoteCubricion.objects.create(
+            nombre=nombre, nave=nave, semental=semental,
+            fecha_cubricion=fecha_cubricion
+        )
+        lote.save()
+
+        for i in animales:
+            animal = Animal.objects.get(id=i)
+            lote.grupo_animales.add(animal)
         
+        lote.save()
+        return redirect('dashboard-veterinario')
+
     else:
         return redirect('dashboard-veterinario')
+
+
+class ListLotesView(LoginRequiredMixin, ListView):
+    model = LoteCubricion
+    template_name = 'animal/lista-lotes.html'
+    context_object_name = 'lotes'
+
+    def get_queryset(self):
+        return LoteCubricion.objects.filter(nave__veterinarios=self.request.user)
+
+
+class DetalleLoteView(LoginRequiredMixin, DetailView):
+    model = LoteCubricion
+    context_object_name = 'lote_cubricion'
+    template_name = 'animal/detalle-lote-cubricion.html'
+
+
+@login_required
+def registro_nacimiento_paso1(request):
+    if request.user.es_administrador:
+        if request.method == 'POST':
+            lote_seleccionado = int(request.POST.get('lote', None))
+            return redirect('registro-nacimiento-paso2', lote=lote_seleccionado)
+
+        if request.method == 'GET':
+            context = {
+                'lotes': LoteCubricion.objects.filter(nave__administrador=request.user)
+            }
+            return render(request, 'animal/registro-nacimiento-paso1.html', context)
+    
+    if request.user.es_veterinario:
+        if request.method == 'POST':
+            lote_seleccionado = int(request.POST.get('lote', None))
+            return redirect('registro-nacimiento-paso2', lote=lote_seleccionado)
+
+        if request.method == 'GET':
+            context = {
+                'lotes': LoteCubricion.objects.filter(nave__administrador=request.user.veterinario.administrador)
+            }
+            return render(request, 'animal/registro-nacimiento-paso1.html', context)
+
+@login_required
+def registro_nacimiento_paso2(request, lote):
+    if request.user.es_administrador:
+        if request.method == 'POST':
+            lote_cubricion = LoteCubricion.objects.get(id=lote)
+            pass
+
+        if request.method == 'GET':
+            context = {
+                'razas': Raza.objects.all(),
+                'capas': CapaAnimal.objects.all(),
+                'tipos': TipoAnimal.objects.all()
+            }
+            return render(request, 'animal/registro-nacimiento-paso2.html', context)
+    
+    if request.user.es_veterinario:
+        if request.method == 'POST':
+            lote_cubricion = LoteCubricion.objects.get(id=lote)
+            nave = lote_cubricion.nave
+            nombre = request.POST.get('nombre', None)
+            numero = int(request.POST.get('numero', None))
+            raza = int(request.POST.get('raza', None))
+            capa = int(request.POST.get('capa', None))
+            tipo = int(request.POST.get('tipo', None))
+            fecha_nacimiento = request.POST.get('fecha_nacimiento', None)
+            # altura
+            # peso
+            # Para obtener boolean: request.POST.get('es_semental', False)
+            pass
+        
+        if request.method == 'GET':
+            context = {
+                'razas': Raza.objects.all(),
+                'capas': CapaAnimal.objects.all(),
+                'tipos': TipoAnimal.objects.all()
+            }
+            return render(request, 'animal/registro-nacimiento-paso2.html', context)
+
+@login_required
+def registro_nacimiento_paso3(request):
+    if request.user.es_administrador:
+        if request.method == 'POST':
+            lote_seleccionado = int(request.POST.get('lote', None))
+            return redirect()
+
+        if request.method == 'GET':
+            context = {
+                'lotes': LoteCubricion.objects.filter(nave__administrador=request.user)
+            }
+            return render(request, 'animal/registro-nacimiento-paso1.html', context)
+    
+    if request.user.es_veterinario:
+        if request.method == 'POST':
+            pass
+        
+        if request.method == 'GET':
+            pass

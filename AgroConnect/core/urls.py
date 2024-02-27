@@ -36,5 +36,16 @@ urlpatterns = [
     path('dashboard/animales/', views.ListAnimalesView.as_view(), name='lista-animales'),
     path('dashboard/registrar_animal/', views.RegistroAnimalView.as_view(), name='registro-animal'),
     path('dashboard/animal_detalle/<int:pk>/', views.AnimalDetalleView.as_view(), name='detalle-animal'),
+    path('dashboard/creacion_capa/', views.RegistroCapaView.as_view(), name='registro-capa'),
+    path('dashboard/creacion_raza/', views.RegistroRazaView.as_view(), name='registro-raza'),
+    path('dashboard/creacion_tipo/', views.RegistroTipoView.as_view(), name='registro-tipo'),
+    path('dashboard/lotes/', views.ListLotesView.as_view(), name='lista-lotes'),
+    path('dashboard/detalle_lote/<int:pk>/', views.DetalleLoteView.as_view(), name='detalle-lote'),
+    path('dashboard/registrar_nacimiento/', views.registro_nacimiento_paso1, name='registro-nacimiento-paso1'),
+    path(
+        'dashboard/registrar_nacimiento/lote/<int:lote>/', 
+        views.registro_nacimiento_paso2, name='registro-nacimiento-paso2'
+    ),
     path('lote_cubricion/crear/', views.crear_lote_seleccion_nave, name='crear-lote-paso1'),
+    path('lote_cubricion/crear/<int:nave>/', views.crear_lote_seleccion_animales, name='crear-lote-paso2'),
 ]

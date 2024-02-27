@@ -7,11 +7,11 @@
                 <form method="post" action=".">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="naves" class="form-label">Seleccione Nave: </label>
-                        <select name="naves" id="naves" class="form-select">
+                        <label for="lote" class="form-label">Seleccione Lote de Cubrición: </label>
+                        <select name="lote" id="lote" class="form-select">
                     </div>
-                        {% for nave in naves %}
-                            <option value="{{ nave.id }}">{{ nave.nombre_nave }}</option>
+                        {% for lote in lotes %}
+                            <option value="{{ lote.id }}">{{ lote.nombre }}</option>
                         {% endfor %}
                     </select>
                     <button class="btn btn-success">Continuar</button>

@@ -34,7 +34,7 @@
               <a class="nav-link" href="{% url 'lista-animales' %}">Animales</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Lotes de Cubrición</a>
+              <a class="nav-link" href="{% url 'lista-lotes' %}">Lotes de Cubrición</a>
             </li>
           {% endif %}
           {% if user.is_authenticated %}

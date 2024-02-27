@@ -6,17 +6,19 @@
         <div class="col-md-12">
             <form method="post" class="card" novalidate>
                 {% csrf_token %}
-                <h2 class="text-center">Formulario de Registro de nuevo Granjero</h2>
-                {% for field in form %}
-                        {{ field.label_tag }} 
-                        {{ field }}
-                        {% if field.errors %}
-                            <small>{{ field.errors|striptags }}</small> 
-                        {% endif %}
-                {% endfor %}
+                <div class="mb-3">
+                    <h2 class="text-center">Formulario de Registro de nuevo Granjero</h2>
+                    {% for field in form %}
+                            {{ field.label_tag }} 
+                            {{ field }}
+                            {% if field.errors %}
+                                <small>{{ field.errors|striptags }}</small> 
+                            {% endif %}
+                    {% endfor %}
         
-                <input type="submit" value="Crear Granjero" class="btn btn-success">
-                <button type="button" class="btn btn-info" onclick="volverAtras()">Volver Atrás</button>
+                    <input type="submit" value="Crear Granjero" class="form-control">
+                    <button type="button" class="btn btn-success" onclick="volverAtras()">Volver Atrás</button>
+                </div>
             </form>
         </div>
     </div>

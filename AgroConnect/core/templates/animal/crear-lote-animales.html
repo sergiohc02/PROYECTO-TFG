@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action=".">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="nombre_lote" class="form-label">Nombre del Lote</label>
+                        <input type="text" id="nombre_lote" name="nombre_lote" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fecha_cubricion" class="form-label">Fecha de Cubrición</label>
+                        <input type="date" id="fecha_cubricion" name="fecha_cubricion" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="animales" class="form-label">Seleccione Animales: </label>
+                        <select name="animales" id="animales" multiple class="form-select">
+                            {% for animal in animales %}
+                                <option value="{{ animal.id }}">{{ animal.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="semental" class="form-label">Seleccione Semental: </label>
+                        <select name="semental" id="semental" class="form-select">
+                            {% for semental in sementales %}
+                                <option value="{{ semental.id }}">{{ semental.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn btn-success">Continuar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

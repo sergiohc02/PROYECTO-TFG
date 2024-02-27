@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import CustomUser, Nave, Veterinario, Animal
+from .models import CustomUser, Nave, Veterinario, Animal, Raza, CapaAnimal, TipoAnimal
 
 
 class FormularioRegistroAdministradorForm(ModelForm):
@@ -35,7 +35,28 @@ class FormularioRegistroAnimal(ModelForm):
         self.request = kwargs.pop('request')
         super().__init__(*args, **kwargs)
         self.fields['nave'].queryset = Nave.objects.filter(administrador=self.request.user)
+
+        # for visible in self.visible_fields():
+        #     visible.field.widget.attrs['class'] = 'form-control'
     
     class Meta:
         model = Animal
+        fields = '__all__'
+
+
+class FormularioRegistroCapa(ModelForm):   
+    class Meta:
+        model = CapaAnimal
+        fields = '__all__'
+
+
+class FormularioRegistroRaza(ModelForm):    
+    class Meta:
+        model = Raza
+        fields = '__all__'
+
+
+class FormularioRegistroTipo(ModelForm): 
+    class Meta:
+        model = TipoAnimal
         fields = '__all__'

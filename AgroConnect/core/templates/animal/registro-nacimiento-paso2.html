@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action=".">
+                    {% csrf_token %}
+
+                    <div class="mb-3 form-group">
+                        <label for="nombre" class="form-label">Nombre del Animal: </label>
+                        <input name="nombre" id="nombre" class="form-control" type="text">
+                    </div>
+
+                    <div class="mb-3 form-group">
+                        <label for="numero" class="form-label">Número del Animal: </label>
+                        <input name="numero" id="numero" class="form-control" type="number">
+                    </div>
+
+                    <div class="mb-3 form-group">
+                        <label for="raza" class="form-label">Seleccione la Raza: </label>
+                        <select name="raza" id="raza" class="form-select">
+                            {% for raza in razas %}
+                                <option value="{{ raza.id }}">{{ raza.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3 form-group">
+                        <label for="capa" class="form-label">Capa del animal: </label>
+                        <select name="capa" id="capa" class="form-select">
+                            {% for capa in capas %}
+                                <option value="{{ capa.id }}">{{ capa.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3 form-group">
+                        <label for="tipo" class="form-label">Tipo del animal: </label>
+                        <select name="tipo" id="tipo" class="form-select">
+                            {% for tipo in tipos %}
+                                <option value="{{ tipo.id }}">{{ tipo.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3 form-group">
+                        <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento: </label>
+                        <input name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" type="date">
+                    </div>
+
+                    <div class="mb-3 form-group">
+                        <label for="altura" class="form-label">Altura: </label>
+                        <input name="altura" id="altura" class="form-control" type="number" step="0.01">
+                    </div>
+
+                    <div class="mb-3 form-group">
+                        <label for="peso" class="form-label">Peso: </label>
+                        <input name="peso" id="peso" class="form-control" type="number" step="0.01">
+                    </div>
+
+                    <div class="mb-3 form-group">
+                        <label for="es_semental" class="form-label">¿Es Semental?: </label>
+                        <input name="es_semental" id="es_semental" type="checkbox">
+                    </div>
+
+                    <button class="btn btn-success">Continuar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
