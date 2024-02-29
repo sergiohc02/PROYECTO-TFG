@@ -337,7 +337,26 @@ def registro_nacimiento_paso2(request, lote):
     if request.user.es_administrador:
         if request.method == 'POST':
             lote_cubricion = LoteCubricion.objects.get(id=lote)
-            pass
+            nave = lote_cubricion.nave
+            nombre = request.POST.get('nombre', None)
+            numero = int(request.POST.get('numero', None))
+            raza = Raza.objects.get(id=int(request.POST.get('raza', None)))
+            capa = CapaAnimal.objects.get(id=int(request.POST.get('capa', None)))
+            tipo = TipoAnimal.objects.get(id=int(request.POST.get('tipo', None)))
+            fecha_nacimiento = request.POST.get('fecha_nacimiento', None)
+            altura = float(request.POST.get('altura', None))
+            peso = float(request.POST.get('peso', None))
+            es_semental = bool(request.POST.get('es_semental', False))
+            animal = Animal.objects.create(
+                nave=nave, nombre=nombre, numero=numero, raza=raza, 
+                capa=capa, tipo=tipo, fecha_nacimiento=fecha_nacimiento,
+                altura=altura, peso=peso, es_semental=es_semental
+            )
+            animal.save()
+
+            lote_cubricion.numero_cubriciones = lote_cubricion.numero_cubriciones + 1
+            lote_cubricion.save()
+            return redirect('registro-nacimiento-paso3', lote=lote_cubricion.id, animal=animal.id)
 
         if request.method == 'GET':
             context = {
@@ -353,14 +372,23 @@ def registro_nacimiento_paso2(request, lote):
             nave = lote_cubricion.nave
             nombre = request.POST.get('nombre', None)
             numero = int(request.POST.get('numero', None))
-            raza = int(request.POST.get('raza', None))
-            capa = int(request.POST.get('capa', None))
-            tipo = int(request.POST.get('tipo', None))
+            raza = Raza.objects.get(id=int(request.POST.get('raza', None)))
+            capa = CapaAnimal.objects.get(id=int(request.POST.get('capa', None)))
+            tipo = TipoAnimal.objects.get(id=int(request.POST.get('tipo', None)))
             fecha_nacimiento = request.POST.get('fecha_nacimiento', None)
-            # altura
-            # peso
-            # Para obtener boolean: request.POST.get('es_semental', False)
-            pass
+            altura = float(request.POST.get('altura', None))
+            peso = float(request.POST.get('peso', None))
+            es_semental = bool(request.POST.get('es_semental', False))
+            animal = Animal.objects.create(
+                nave=nave, nombre=nombre, numero=numero, raza=raza, 
+                capa=capa, tipo=tipo, fecha_nacimiento=fecha_nacimiento,
+                altura=altura, peso=peso, es_semental=es_semental
+            )
+            animal.save()
+
+            lote_cubricion.numero_cubriciones = lote_cubricion.numero_cubriciones + 1
+            lote_cubricion.save()
+            return redirect('registro-nacimiento-paso3', lote=lote_cubricion.id, animal=animal.id)
         
         if request.method == 'GET':
             context = {
@@ -371,21 +399,44 @@ def registro_nacimiento_paso2(request, lote):
             return render(request, 'animal/registro-nacimiento-paso2.html', context)
 
 @login_required
-def registro_nacimiento_paso3(request):
+def registro_nacimiento_paso3(request, lote, animal):
     if request.user.es_administrador:
         if request.method == 'POST':
-            lote_seleccionado = int(request.POST.get('lote', None))
-            return redirect()
+            animal_hijo = Animal.objects.get(id=animal)
+            lote_cubricion = LoteCubricion.objects.get(id=lote)
+            madre = Animal.objects.get(id=int(request.POST.get('madre', None)))
+            nacimiento = Nacimiento.objects.create(
+                animal=animal_hijo, padre=lote_cubricion.semental,
+                madre=madre, lote_cubricion=lote_cubricion,
+                fecha_nacimiento=animal_hijo.fecha_nacimiento
+            )
+            nacimiento.save()
+            return redirect('dashboard')
 
         if request.method == 'GET':
+            lote_cubricion = LoteCubricion.objects.get(id=lote)
             context = {
-                'lotes': LoteCubricion.objects.filter(nave__administrador=request.user)
+                'madres': lote_cubricion.grupo_animales.all()
             }
-            return render(request, 'animal/registro-nacimiento-paso1.html', context)
+            return render(request, 'animal/registro-nacimiento-paso3.html', context)
     
     if request.user.es_veterinario:
         if request.method == 'POST':
-            pass
-        
+            animal_hijo = Animal.objects.get(id=animal)
+            lote_cubricion = LoteCubricion.objects.get(id=lote)
+            madre = Animal.objects.get(id=int(request.POST.get('madre', None)))
+            nacimiento = Nacimiento.objects.create(
+                animal=animal_hijo, padre=lote_cubricion.semental,
+                madre=madre, lote_cubricion=lote_cubricion,
+                fecha_nacimiento=animal_hijo.fecha_nacimiento
+            )
+            nacimiento.save()
+            return redirect('dashboard-veterinario')
+
         if request.method == 'GET':
-            pass
+            lote_cubricion = LoteCubricion.objects.get(id=lote)
+            context = {
+                'madres': lote_cubricion.grupo_animales.all()
+            }
+            return render(request, 'animal/registro-nacimiento-paso3.html', context)
+

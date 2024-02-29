@@ -54,6 +54,20 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <script>
+                const filas = document.querySelectorAll(".table-hover tbody tr");
+                
+                for (const fila of filas) {
+                  fila.addEventListener("mouseover", () => {
+                    fila.style.cursor = "pointer";
+                    fila.style.backgroundColor = "#ccc";
+                  });
+                
+                  fila.addEventListener("mouseout", () => {
+                    fila.style.backgroundColor = "";
+                  });
+                }
+            </script>
         </div>
     </div>
 </div>

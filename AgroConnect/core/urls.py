@@ -26,7 +26,7 @@ urlpatterns = [
     path('password_reset_confirm/<uidb64>/<token>/', views.PasswordResetConfirm.as_view(), name='password_reset_confirm'),
     path('password_reset_done/', views.PasswordResetDone.as_view(), name='password_reset_done'),
     path('password_reset_complete/', views.PasswordResetComplete.as_view(), name='password_reset_complete'),
-    path('dashboard/', views.DashboardView.as_view(), name='dashboard'),
+    path('', views.DashboardView.as_view(), name='dashboard'),
     path('dashboard_veterinario/', views.DashboardVeterinarioView.as_view(), name='dashboard-veterinario'),
     path('dashboard/naves/', views.ListNavesView.as_view(), name='lista-naves'),
     path('dashboard/registro_nave/', views.RegistroNaveView.as_view(), name='registro-nave'),
@@ -45,6 +45,10 @@ urlpatterns = [
     path(
         'dashboard/registrar_nacimiento/lote/<int:lote>/', 
         views.registro_nacimiento_paso2, name='registro-nacimiento-paso2'
+    ),
+    path(
+        'dashboard/registrar_nacimiento/lote/<int:lote>/animal_nacido/<int:animal>/',
+        views.registro_nacimiento_paso3, name='registro-nacimiento-paso3'
     ),
     path('lote_cubricion/crear/', views.crear_lote_seleccion_nave, name='crear-lote-paso1'),
     path('lote_cubricion/crear/<int:nave>/', views.crear_lote_seleccion_animales, name='crear-lote-paso2'),

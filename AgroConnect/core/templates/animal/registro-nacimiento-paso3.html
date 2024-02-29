@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action=".">
+                    {% csrf_token %}
+
+                    <div class="mb-3 form-group">
+                        <label for="madre" class="form-label">Seleccione la Madre: </label>
+                        <select name="madre" id="madre" class="form-select">
+                            {% for madre in madres %}
+                                <option value="{{ madre.id }}">{{ madre.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button class="btn btn-success" type="submit">Continuar</button>
+                    <button type="button" class="btn btn-outline-danger" onclick="volverAtras()">Volver Atrás</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

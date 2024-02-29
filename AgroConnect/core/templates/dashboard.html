@@ -12,6 +12,7 @@
             <a href="{% url 'registro-nave' %}" class="btn btn btn-outline-warning">Crear Nave</a>
             <a href="{% url 'registro-veterinario' %}" class="btn btn-outline-primary">Crear Veterinario</a>
             <a href="{% url 'registro-animal' %}" class="btn btn-outline-success">Crear Animal</a>
+            <a href="{% url 'registro-nacimiento-paso1' %}" class="btn btn-outline-success">Registrar Nacimiento</a>
         </div>
     </div>
     <div class="row d-flex p-2 justify-content-between">
@@ -587,6 +588,20 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <script>
+                const filas = document.querySelectorAll(".table-hover tbody tr");
+                
+                for (const fila of filas) {
+                  fila.addEventListener("mouseover", () => {
+                    fila.style.cursor = "pointer";
+                    fila.style.backgroundColor = "#ccc";
+                  });
+                
+                  fila.addEventListener("mouseout", () => {
+                    fila.style.backgroundColor = "";
+                  });
+                }
+            </script>
         </div>
     </div>
     

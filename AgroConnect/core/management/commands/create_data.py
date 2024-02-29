@@ -295,19 +295,19 @@ class Command(BaseCommand):
 
         lote_cubricion1 = LoteCubricion.objects.create(
             nave=nave1, nombre='Lote1',semental=animal1, fecha_cubricion=date(2024, 1, 30))
-        lote_cubricion1.grupo_animales.add(animal1, animal2, animal3, animal4)
+        lote_cubricion1.grupo_animales.add(animal2, animal3, animal4)
         lote_cubricion2 = LoteCubricion.objects.create(
             nave=nave2, nombre='Lote2',semental=animal5, fecha_cubricion=date(2024, 1, 30)
         )
-        lote_cubricion2.grupo_animales.add(animal5, animal6, animal7, animal8)
+        lote_cubricion2.grupo_animales.add(animal6, animal7, animal8)
         lote_cubricion3 = LoteCubricion.objects.create(
             nave=nave3, nombre='Lote3',semental=animal9, fecha_cubricion=date(2024, 1, 30)
         )
-        lote_cubricion3.grupo_animales.add(animal9, animal10, animal11, animal12)
+        lote_cubricion3.grupo_animales.add(animal10, animal11, animal12)
         lote_cubricion4 = LoteCubricion.objects.create(
             nave=nave4, nombre='Lote4',semental=animal13, fecha_cubricion=date(2024, 1, 30)
         )
-        lote_cubricion4.grupo_animales.add(animal13, animal14, animal15, animal16)
+        lote_cubricion4.grupo_animales.add(animal14, animal15, animal16)
 
         lote_cubricion1.save()
         lote_cubricion2.save()

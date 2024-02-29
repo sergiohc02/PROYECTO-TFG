@@ -136,9 +136,9 @@ class Animal(models.Model):
 
 
 class Nacimiento(models.Model):
-    animal = models.OneToOneField(Animal, on_delete=models.CASCADE, related_name='animal_nacido')
-    padre = models.OneToOneField(Animal, on_delete=models.CASCADE, related_name='nacimiento_padre')
-    madre = models.OneToOneField(Animal, on_delete=models.CASCADE, related_name='nacimiento_madre')
+    animal = models.ForeignKey(Animal, on_delete=models.CASCADE, related_name='animal_nacido')
+    padre = models.ForeignKey(Animal, on_delete=models.CASCADE, related_name='nacimiento_padre')
+    madre = models.ForeignKey(Animal, on_delete=models.CASCADE, related_name='nacimiento_madre')
     lote_cubricion = models.ForeignKey('LoteCubricion', on_delete=models.CASCADE)
     fecha_nacimiento = models.DateTimeField()
 
