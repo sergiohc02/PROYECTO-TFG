@@ -36,6 +36,10 @@ urlpatterns = [
     path('dashboard/animales/', views.ListAnimalesView.as_view(), name='lista-animales'),
     path('dashboard/registrar_animal/', views.RegistroAnimalView.as_view(), name='registro-animal'),
     path('dashboard/animal_detalle/<int:pk>/', views.AnimalDetalleView.as_view(), name='detalle-animal'),
+    path('dashboard/animal_detalle/<int:animal>/baja/', views.animal_baja, name='baja-animal'),
+    path('dashboard/animal_detalle/<int:animal>/alta/', views.animal_alta, name='alta-animal'),
+    path('dashboard/animal_detalle/<int:animal>/muerte/', views.animal_muerte, name='muerte-animal'),
+    path('dashboard/animal_detalle/<int:animal>/enfermedad/', views.animal_enfermedad, name='enfermedad-animal'),
     path('dashboard/creacion_capa/', views.RegistroCapaView.as_view(), name='registro-capa'),
     path('dashboard/creacion_raza/', views.RegistroRazaView.as_view(), name='registro-raza'),
     path('dashboard/creacion_tipo/', views.RegistroTipoView.as_view(), name='registro-tipo'),
@@ -52,4 +56,6 @@ urlpatterns = [
     ),
     path('lote_cubricion/crear/', views.crear_lote_seleccion_nave, name='crear-lote-paso1'),
     path('lote_cubricion/crear/<int:nave>/', views.crear_lote_seleccion_animales, name='crear-lote-paso2'),
+    path('crear/enfermedad/', views.crear_enfermedad, name='crear-enfermedad'),
+    path('crear/pdf/', views.crear_pdf, name='crear-pdf'),
 ]

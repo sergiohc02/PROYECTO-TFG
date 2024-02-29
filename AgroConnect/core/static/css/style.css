@@ -124,6 +124,11 @@ textarea {
     color: #fff;
 }
 
+/* Enlace de restablecimiento de contraseña */
+.restablecer-contrasena {
+    color: #000;
+}
+
 /* ._btn_04 button{
   font-size:15px;
   color:#fff;

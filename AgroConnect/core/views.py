@@ -7,6 +7,7 @@ from django.contrib.auth.views import (
 )
 
 from django.urls import reverse_lazy
+from django.http import FileResponse
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -15,9 +16,13 @@ from .forms import (
     FormularioRegistroAnimal, FormularioRegistroCapa, FormularioRegistroRaza, FormularioRegistroTipo
 )
 from .models import (
-    CustomUser, Nave, Veterinario, Animal, Nacimiento, Muerte, LoteCubricion, CapaAnimal, Raza, TipoAnimal
+    CustomUser, Nave, Veterinario, Animal, Nacimiento, Muerte, LoteCubricion, CapaAnimal, Raza, TipoAnimal,
+    Enfermedad, BajaEnfermedad
 )
 
+import io
+from reportlab.pdfgen import canvas
+from datetime import datetime
 
 class PaginaAcceso(LoginView):
     redirect_authenticated_user = True
@@ -440,3 +445,79 @@ def registro_nacimiento_paso3(request, lote, animal):
             }
             return render(request, 'animal/registro-nacimiento-paso3.html', context)
 
+@login_required
+def animal_baja(request, animal):
+    animal_seleccionado = Animal.objects.get(id=animal)
+    animal_seleccionado.esta_baja = True
+    animal_seleccionado.veces_baja = animal_seleccionado.veces_baja + 1
+    animal_seleccionado.save()
+    return redirect('detalle-animal', pk=animal_seleccionado.id)
+
+@login_required
+def animal_alta(request, animal):
+    animal_seleccionado = Animal.objects.get(id=animal)
+    animal_seleccionado.esta_baja = False
+    animal_seleccionado.save()
+    return redirect('detalle-animal', pk=animal_seleccionado.id)
+
+@login_required
+def animal_muerte(request, animal):
+    animal_seleccionado = Animal.objects.get(id=animal)
+    animal_seleccionado.esta_baja = True
+    animal_seleccionado.esta_vivo = False
+    animal_seleccionado.save()
+
+    muerte = Muerte.objects.create(animal=animal_seleccionado, fecha_muerte=datetime.utcnow())
+    muerte.save()  
+
+    return redirect('detalle-animal', pk=animal_seleccionado.id)
+
+@login_required
+def animal_enfermedad(request, animal):
+    if request.method == 'POST':
+        animal_seleccionado = Animal.objects.get(id=animal)
+        causa_enfermedad = request.POST.get('causa_enfermedad', None)
+        enfermedad = Enfermedad.objects.get(id=int(request.POST.get('enfermedad', None)))
+
+        baja_enfermedad = BajaEnfermedad.objects.create(
+            causa_baja=causa_enfermedad, animal=animal_seleccionado,
+            enfermedad=enfermedad
+        )
+        baja_enfermedad.save()
+
+        return redirect('dashboard-veterinario')
+
+    if request.method == 'GET':
+        context = {
+            'enfermedades': Enfermedad.objects.all()
+        }
+        return render(request, 'enfermedad/registro-animal-enfermo.html', context)
+    
+@login_required
+def crear_enfermedad(request):
+    if request.method == 'POST':
+        enfermedad = Enfermedad.objects.create(nombre=request.POST.get('nombre', None))
+        enfermedad.save()
+        return redirect('dashboard-veterinario')
+
+    if request.method == 'GET':
+        return render(request, 'enfermedad/crear-enfermedad.html')
+
+@login_required
+def crear_pdf(request):
+    if request.user.es_administrador:
+        buffer = io.BytesIO()
+
+        pdf = canvas.Canvas(buffer)
+
+        animales = Animal.objects.filter(nave__administrador=request.user)
+        pdf.drawCentredString(0, 0, 'Report de Animales')
+
+        pdf.showPage()
+        pdf.save()
+
+        buffer.seek(0)
+        return FileResponse(buffer, as_attachment=True, filename=f"report_granjas_{request.user.email}.pdf")
+    
+    if request.user.es_veterinario:
+        pass

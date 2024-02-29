@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action=".">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="causa_enfermedad" class="form-label">Causa de la Enfermedad: </label>
+                        <input id="causa_enfermedad" name="causa_enfermedad" class="form-control"
+                            type="text" maxlength="255" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="enfermedad" class="form-label">Seleccione Enfermedad: </label>
+                        <select name="enfermedad" id="enfermedad" class="form-select">
+                            {% for enfermedad in enfermedades %}
+                            <option value="{{ enfermedad.id }}">{{ enfermedad.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button class="btn btn-success">Continuar</button>
+                    <button type="button" class="btn btn-outline-danger" onclick="volverAtras()">Volver Atrás</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

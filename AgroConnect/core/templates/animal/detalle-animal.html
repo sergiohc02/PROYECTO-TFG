@@ -7,10 +7,10 @@
             <h2>{{ animal.nombre }}</h2>
         </div>
         <div class="col-md-4 justify-content-between m-auto">
-            <a href="#" class="btn btn-outline-warning">Registrar Enfermedad</a>
-            <a href="#" class="btn btn-outline-success">Registrar Alta</a>
-            <a href="#" class="btn btn-outline-primary">Registrar Baja</a>
-            <a href="#" class="btn btn-outline-warning">Registrar Muerte</a>
+            <a href="{% url 'enfermedad-animal' animal=animal.id %}" class="btn btn-outline-warning">Registrar Enfermedad</a>
+            <a href="{% url 'alta-animal' animal=animal.id %}" class="btn btn-outline-success">Registrar Alta</a>
+            <a href="{% url 'baja-animal' animal=animal.id %}" class="btn btn-outline-primary">Registrar Aislamiento del animal</a>
+            <a href="{% url 'muerte-animal' animal=animal.id %}" class="btn btn-outline-warning">Registrar Muerte</a>
         </div>
     </div>
     

@@ -174,11 +174,11 @@ class PictureAnimal(models.Model):
 
 class BajaEnfermedad(models.Model):
     causa_baja = models.CharField(max_length=255)
-    animal= models.ForeignKey(Animal, on_delete=models.CASCADE, related_name='bajas_enfermedad')
+    animal = models.ForeignKey(Animal, on_delete=models.CASCADE, related_name='bajas_enfermedad')
     enfermedad = models.ForeignKey(Enfermedad, on_delete=models.CASCADE, related_name='bajas_enfermedad')
 
     def __str__(self) -> str:
-        return f'{self.id_animal} {self.causa_baja}'
+        return f'{self.animal.id} {self.causa_baja}'
     
     class Meta:
         verbose_name_plural = 'Bajas por enfermedades'
