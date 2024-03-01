@@ -1,6 +1,6 @@
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, CreateView, DetailView, ListView
+from django.views.generic import TemplateView, CreateView, DetailView, ListView, UpdateView, DeleteView
 from django.contrib.auth.views import (
     LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView,
     PasswordResetCompleteView
@@ -13,7 +13,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from .forms import (
     FormularioRegistroAdministradorForm, FormularioRegistroNave, FormularioRegistroVeterinario,
-    FormularioRegistroAnimal, FormularioRegistroCapa, FormularioRegistroRaza, FormularioRegistroTipo
+    FormularioRegistroAnimal, FormularioRegistroCapa, FormularioRegistroRaza, FormularioRegistroTipo,
+    FormularioEdicionAnimal, FormularioEdicionLote, FormularioEdicionNave
 )
 from .models import (
     CustomUser, Nave, Veterinario, Animal, Nacimiento, Muerte, LoteCubricion, CapaAnimal, Raza, TipoAnimal,
@@ -22,6 +23,8 @@ from .models import (
 
 import io
 from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
 from datetime import datetime
 
 class PaginaAcceso(LoginView):
@@ -121,7 +124,7 @@ class DashboardVeterinarioView(LoginRequiredMixin, TemplateView):
 class RegistroVeterinarioView(LoginRequiredMixin, CreateView):
     form_class = FormularioRegistroVeterinario
     model = Veterinario
-    success_url = '/dashboard/'
+    success_url = '/'
     template_name = 'veterinario/registrar-veterinario.html'
 
     def form_valid(self, form):
@@ -141,7 +144,7 @@ class RegistroVeterinarioView(LoginRequiredMixin, CreateView):
 class RegistroNaveView(LoginRequiredMixin, CreateView):
     form_class = FormularioRegistroNave
     model = Nave
-    success_url = '/dashboard/'
+    success_url = '/'
     template_name = 'nave/registrar-nave.html'
     
     def get_form_kwargs(self):
@@ -161,7 +164,7 @@ class RegistroNaveView(LoginRequiredMixin, CreateView):
 class RegistroAnimalView(LoginRequiredMixin, CreateView):
     form_class = FormularioRegistroAnimal
     model = Animal
-    success_url = '/dashboard/'
+    success_url = '/'
     template_name = 'animal/registrar-animal.html'
 
     def get_form_kwargs(self):
@@ -173,24 +176,50 @@ class RegistroAnimalView(LoginRequiredMixin, CreateView):
         return kwargs
 
 
+class EdicionAnimalView(LoginRequiredMixin, UpdateView):
+    form_class = FormularioEdicionAnimal
+    model = Animal
+    success_url = reverse_lazy('dashboard')
+    template_name = 'animal/edicion-animal.html'
+    
+    def get_form_kwargs(self):
+        """Return the keyword arguments for instantiating the form."""
+        kwargs = super().get_form_kwargs()
+        if self.request.user.es_veterinario:
+            kwargs['user'] = self.request.user.veterinario.administrador
+        else:
+            kwargs['user'] = self.request.user
+
+        if hasattr(self, "object"):
+            kwargs.update({"instance": self.object})
+        return kwargs
+
+
+class BorrarAnimalView(LoginRequiredMixin, DeleteView):
+    model = Animal
+    context_object_name = 'animal'
+    template_name = 'animal/confirmacion-borrado.html'
+    success_url = reverse_lazy('lista-animales')
+
+
 class RegistroCapaView(LoginRequiredMixin, CreateView):
     form_class = FormularioRegistroCapa
     model = CapaAnimal
-    success_url = '/dashboard/'
+    success_url = '/'
     template_name = 'animal/registrar-capa.html'
 
 
 class RegistroRazaView(LoginRequiredMixin, CreateView):
     form_class = FormularioRegistroRaza
     model = Raza
-    success_url = '/dashboard/'
+    success_url = '/'
     template_name = 'animal/registrar-raza.html'
 
 
 class RegistroTipoView(LoginRequiredMixin, CreateView):
     form_class = FormularioRegistroTipo
     model = TipoAnimal
-    success_url = '/dashboard/'
+    success_url = '/'
     template_name = 'animal/registrar-tipo.html'
 
 
@@ -220,6 +249,25 @@ class ListNavesView(LoginRequiredMixin, ListView):
             return Nave.objects.filter(administrador=administrador)
         
         return Nave.objects.filter(administrador=self.request.user)
+
+
+class EditarNaveView(LoginRequiredMixin, UpdateView):
+    form_class = FormularioEdicionNave
+    model = Nave
+    success_url = reverse_lazy('lista-naves')
+    template_name = 'nave/editar-nave.html'
+    
+    def get_form_kwargs(self):
+        """Return the keyword arguments for instantiating the form."""
+        kwargs = super().get_form_kwargs()
+        if self.request.user.es_veterinario:
+            kwargs['user'] = self.request.user.veterinario.administrador
+        else:
+            kwargs['user'] = self.request.user
+
+        if hasattr(self, "object"):
+            kwargs.update({"instance": self.object})
+        return kwargs
 
 
 class ListAnimalesView(LoginRequiredMixin, ListView):
@@ -311,6 +359,32 @@ class DetalleLoteView(LoginRequiredMixin, DetailView):
     model = LoteCubricion
     context_object_name = 'lote_cubricion'
     template_name = 'animal/detalle-lote-cubricion.html'
+
+
+class EdicionLoteView(LoginRequiredMixin, UpdateView):
+    form_class = FormularioEdicionLote
+    model = LoteCubricion
+    success_url = reverse_lazy('dashboard')
+    template_name = 'animal/edicion-lote.html'
+    
+    def get_form_kwargs(self):
+        """Return the keyword arguments for instantiating the form."""
+        kwargs = super().get_form_kwargs()
+        if self.request.user.es_veterinario:
+            kwargs['user'] = self.request.user.veterinario.administrador
+        else:
+            kwargs['user'] = self.request.user
+
+        if hasattr(self, "object"):
+            kwargs.update({"instance": self.object})
+        return kwargs
+
+
+class BorrarLoteView(LoginRequiredMixin, DeleteView):
+    model = LoteCubricion
+    context_object_name = 'lote'
+    template_name = 'animal/confirmacion-borrado-lote.html'
+    success_url = reverse_lazy('lista-lotes')
 
 
 @login_required
@@ -508,16 +582,88 @@ def crear_pdf(request):
     if request.user.es_administrador:
         buffer = io.BytesIO()
 
-        pdf = canvas.Canvas(buffer)
+        pdf = canvas.Canvas(buffer, pagesize=letter, bottomup=0)
 
-        animales = Animal.objects.filter(nave__administrador=request.user)
-        pdf.drawCentredString(0, 0, 'Report de Animales')
+        textob = pdf.beginText()
+        textob.setTextOrigin(inch, inch)
+        textob.setFont('Helvetica', 14)
 
-        pdf.showPage()
+        naves = Nave.objects.filter(administrador=request.user)
+        animales = []
+        
+        lines = []
+
+        for nave in naves:
+            for animal in nave.animal_set.iterator():
+                animales.append(animal)
+
+        for animal in animales:
+            lines.append('Nombre del animal: ' + animal.nombre)
+            lines.append('Número del animal: ' + str(animal.numero))
+            lines.append('Raza del animal: ' + animal.raza.nombre)
+            lines.append('Capa de animal: ' + animal.capa.nombre)
+            lines.append('Tipo de animal: ' + animal.tipo.nombre)
+            lines.append('Fecha de Nacimiento del Animal: ' + datetime.strftime(animal.fecha_nacimiento, '%d-%m-%Y'))
+            lines.append('Altura del animal: ' + str(animal.altura))
+            lines.append('Peso del animal: ' + str(animal.peso))
+            lines.append('Es Semental' if animal.es_semental else 'No es Semental')
+            lines.append('Número de Bajas: ' + str(animal.veces_baja))
+            lines.append('Esta Vivo' if animal.esta_vivo else 'No Esta Vivo')
+            lines.append('Esta de Baja' if animal.esta_baja else 'No esta de Baja')
+            lines.append('   ')
+        
+        for line in lines:
+            textob.textLine(line)
+        
+        pdf.drawText(textob)
+
+        # pdf.showPage()
         pdf.save()
 
         buffer.seek(0)
         return FileResponse(buffer, as_attachment=True, filename=f"report_granjas_{request.user.email}.pdf")
     
     if request.user.es_veterinario:
-        pass
+        buffer = io.BytesIO()
+
+        pdf = canvas.Canvas(buffer, pagesize=letter, bottomup=0)
+
+        textob = pdf.beginText()
+        textob.setTextOrigin(inch, inch)
+        textob.setFont('Helvetica', 14)
+
+        naves = Nave.objects.filter(administrador=request.user.veterinario.administrador)
+        animales = []
+        
+        lines = []
+
+        for nave in naves:
+            for animal in nave.animal_set.iterator():
+                animales.append(animal)
+
+        for animal in animales:
+            lines.append('Nombre del animal: ' + animal.nombre)
+            lines.append('Número del animal: ' + str(animal.numero))
+            lines.append('Raza del animal: ' + animal.raza.nombre)
+            lines.append('Capa de animal: ' + animal.capa.nombre)
+            lines.append('Tipo de animal: ' + animal.tipo.nombre)
+            lines.append('Fecha de Nacimiento del Animal: ' + datetime.strftime(animal.fecha_nacimiento, '%d-%m-%Y'))
+            lines.append('Altura del animal: ' + str(animal.altura))
+            lines.append('Peso del animal: ' + str(animal.peso))
+            lines.append('Es Semental' if animal.es_semental else 'No es Semental')
+            lines.append('Número de Bajas: ' + str(animal.veces_baja))
+            lines.append('Esta Vivo' if animal.esta_vivo else 'No Esta Vivo')
+            lines.append('Esta de Baja' if animal.esta_baja else 'No esta de Baja')
+            lines.append('   ')
+        
+        for line in lines:
+            textob.textLine(line)
+        
+        pdf.drawText(textob)
+
+        # pdf.showPage()
+        pdf.save()
+
+        buffer.seek(0)
+        return FileResponse(buffer, as_attachment=True, filename=f"report_granjas_{request.user.email}.pdf")
+

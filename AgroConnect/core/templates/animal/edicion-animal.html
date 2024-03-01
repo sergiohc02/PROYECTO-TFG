@@ -7,7 +7,7 @@
             <form method="post" class="card" novalidate>
                 {% csrf_token %}
                 <div class="mb-3">
-                    <h2 class="text-center">Formulario de Edición Nave</h2>
+                    <h2 class="text-center">Formulario de Edición Animal</h2>
                     {% for field in form %}
                         <div class="form-group">
                             {{ field.label_tag }} 
@@ -18,7 +18,7 @@
                         </div>
                     {% endfor %}
             
-                    <input type="submit" value="Editar Nave" class="form-control">
+                    <input type="submit" value="Editar Animal" class="form-control">
                     <button type="button" class="btn btn-outline-danger" onclick="volverAtras()">Volver Atrás</button>
                 </div>
             </form>

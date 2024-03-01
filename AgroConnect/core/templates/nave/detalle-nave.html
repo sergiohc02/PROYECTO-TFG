@@ -7,9 +7,9 @@
             <h2>{{ nave.nombre_nave }}</h2>
         </div>
         <div class="col-md-4 justify-content-between m-auto">
-            <a href="#" class="btn btn-outline-warning">Crear Animal</a>
-            <a href="#" class="btn btn-outline-success">Crear Lote</a>
-            <a href="#" class="btn btn-outline-primary">Editar Nave</a>
+            <a href="{% url 'registro-animal' %}" class="btn btn-outline-warning">Crear Animal</a>
+            <a href="{% url 'crear-lote-paso1' %}" class="btn btn-outline-success">Crear Lote</a>
+            <a href="{% url 'editar-nave' pk=nave.id %}" class="btn btn-outline-primary">Editar Nave</a>
         </div>
     </div>
     <div class="row">

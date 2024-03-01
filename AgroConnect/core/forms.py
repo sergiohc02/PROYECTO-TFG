@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import CustomUser, Nave, Veterinario, Animal, Raza, CapaAnimal, TipoAnimal
+from .models import CustomUser, Nave, Veterinario, Animal, Raza, CapaAnimal, TipoAnimal, LoteCubricion
 
 
 class FormularioRegistroAdministradorForm(ModelForm):
@@ -44,6 +44,20 @@ class FormularioRegistroAnimal(ModelForm):
         fields = '__all__'
 
 
+class FormularioEdicionAnimal(ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['nave'].queryset = Nave.objects.filter(administrador=self.user)
+
+        # for visible in self.visible_fields():
+        #     visible.field.widget.attrs['class'] = 'form-control'
+    
+    class Meta:
+        model = Animal
+        fields = '__all__'
+
+
 class FormularioRegistroCapa(ModelForm):   
     class Meta:
         model = CapaAnimal
@@ -60,3 +74,33 @@ class FormularioRegistroTipo(ModelForm):
     class Meta:
         model = TipoAnimal
         fields = '__all__'
+
+
+class FormularioEdicionLote(ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['nave'].queryset = Nave.objects.filter(administrador=self.user)
+        self.fields['grupo_animales'].queryset = Animal.objects.filter(nave__administrador=self.user)
+
+        # for visible in self.visible_fields():
+        #     visible.field.widget.attrs['class'] = 'form-control'
+    
+    class Meta:
+        model = LoteCubricion
+        fields = '__all__'
+
+
+class FormularioEdicionNave(ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        self.fields['veterinarios'].queryset = Veterinario.objects.filter(administrador=self.user)
+
+        # for visible in self.visible_fields():
+        #     visible.field.widget.attrs['class'] = 'form-control'
+    
+    class Meta:
+        model = Nave
+        fields = ['nombre_nave', 'veterinarios', 'direccion', 'poblacion', 'provincia', 'codigo_postal', 'pais']
+

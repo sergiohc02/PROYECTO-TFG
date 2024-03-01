@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="col-md-12">
+            <form method="POST">
+                {% csrf_token %}
+
+                <h3>¿Estás seguro de que deseas borrar el lote {{ lote.nombre }}?</h3>
+
+                <button type="submit" class="btn btn-danger">Borrar</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

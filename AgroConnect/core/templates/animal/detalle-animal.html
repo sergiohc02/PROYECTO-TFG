@@ -11,6 +11,8 @@
             <a href="{% url 'alta-animal' animal=animal.id %}" class="btn btn-outline-success">Registrar Alta</a>
             <a href="{% url 'baja-animal' animal=animal.id %}" class="btn btn-outline-primary">Registrar Aislamiento del animal</a>
             <a href="{% url 'muerte-animal' animal=animal.id %}" class="btn btn-outline-warning">Registrar Muerte</a>
+            <a href="{% url 'edicion-animal' pk=animal.id %}" class="btn btn-outline-warning">Editar Animal</a>
+            <a href="{% url 'borrar-animal' pk=animal.id %}" class="btn btn-danger">Borrar Animal</a>
         </div>
     </div>
     
