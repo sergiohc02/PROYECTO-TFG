@@ -8,7 +8,7 @@
                 <h3>Bienvenido {{ user.nombre }}, como granjero</h3>
             {% endif %}
         </div>
-        <div class="col-md-4 d-flex justify-content-between m-auto">
+        <div class="justify-content-between m-auto">
             <a href="{% url 'registro-nave' %}" class="btn btn btn-outline-warning">Crear Nave</a>
             <a href="{% url 'registro-veterinario' %}" class="btn btn-outline-primary">Crear Veterinario</a>
             <a href="{% url 'registro-animal' %}" class="btn btn-outline-success">Crear Animal</a>

@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-    <div class="row d-flex justify-content-between">
+    <div class="justify-content-between">
         <h2>{{ lote_cubricion.nombre }}</h2>
 		<a href="{% url 'edicion-lote' pk=lote_cubricion.id %}" class="btn btn-outline-primary">Editar Lote</a>
 		<a href="{% url 'borrar-lote' pk=lote_cubricion.id %}" class="btn btn-outline-danger">Borrar Lote</a>
