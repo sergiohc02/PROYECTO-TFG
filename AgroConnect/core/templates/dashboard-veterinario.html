@@ -499,11 +499,11 @@
                             <td>{{ animal.fecha_nacimiento }}</td>
                             <td>{{ animal.altura }}</td>
                             <td>{{ animal.peso }}</td>
-                            <td>{{ animal.es_semental }}</td>
+                            <td>{% if animal.es_semental == True %}&#10004;{% else %}&times;{% endif %}</td>
                             <td>{{ animal.veces_baja }}</td>
-                            <td>{{ animal.esta_activo }}</td>
-                            <td>{{ animal.esta_vivo }}</td>
-                            <td>{{ animal.esta_baja }}</td>
+                            <td>{% if animal.esta_activo == True %}&#10004;{% else %}&times;{% endif %}</td>
+                            <td>{% if animal.esta_vivo == True %}&#10004;{% else %}&times;{% endif %}</td>
+                            <td>{% if animal.esta_baja == True %}&#10004;{% else %}&times;{% endif %}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
