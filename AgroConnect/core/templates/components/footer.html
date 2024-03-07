@@ -1,28 +1,20 @@
 <footer class="bg-dark text-white">
     <div class="container">
       <div class="row">
-        <div class="col-sm-4">
-          <h5>Mi sitio web</h5>
-          <p>Un texto descriptivo sobre tu sitio web o empresa.</p>
+        <div class="col-sm-6">
+          <h5>AgroConnect</h5>
+          <p>AgroConnect ofrece una gestión completa para granjas, permitiendo el seguimiento de nacimientos, lotes de cubrición, y control de aislamientos por enfermedades, todo en una plataforma integrada y fácil de usar</p>
         </div>
-        <div class="col-sm-4">
-          <h5>Enlaces</h5>
+        <div class="col-sm-6">
+          <h5>DETALLES DE LA APLICACIÓN</h5>
           <ul class="list-unstyled">
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">Acerca de</a></li>
-            <li><a href="#">Contacto</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-4">
-          <h5>Redes sociales</h5>
-          <ul class="list-inline">
-            <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fa fa-twitter"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fa fa-instagram"></i></a></li>
+            <li><a href="{% url 'dashboard' %}">Inicio</a></li>
+            <li><a href="{% url 'lista-naves' %}">Naves</a></li>
+            <li><a href="{% url 'lista-animales' %}">Animales</a></li>
           </ul>
         </div>
       </div>
       <hr>
-      <p class="text-center">Copyright &copy; 2024 Mi sitio web</p>
+      <p class="text-center">Copyright &copy; 2024 AgroConnect</p>
     </div>
   </footer>
